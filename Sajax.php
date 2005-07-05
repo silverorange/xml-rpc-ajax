@@ -71,7 +71,7 @@ class HTTP_Sajax
 	 *
 	 * @var array
 	 */
-	private $export_list = array();
+	private $_export_list = array();
 
 	/**
 	 * The type of HTTP request to use for server calls
@@ -80,7 +80,7 @@ class HTTP_Sajax
 	 *
 	 * @var string
 	 */
-	private $request_type = '';
+	private $_request_type = '';
 
 	// }}}
 	// {{{ public function __construct()
@@ -90,7 +90,7 @@ class HTTP_Sajax
 	 */
 	public function __construct()
 	{
-		$this->request_type = HTTP_SAJAX_TYPE_GET;
+		$this->_request_type = HTTP_SAJAX_TYPE_GET;
 		$this->remote_uri = $_SERVER['REQUEST_URI'];
 	}
 
@@ -110,7 +110,7 @@ class HTTP_Sajax
 	 */
 	public function exportPHPFunction($function_name)
 	{
-		$this->export_list[] = $function_name;
+		$this->_export_list[] = $function_name;
 	}
 
 	// }}}
@@ -134,7 +134,7 @@ class HTTP_Sajax
 		$request_type = strtoupper($request_type);
 		
 		if (in_array($request_type, $valid_types)) {
-			$this->request_type = $request_type;
+			$this->_request_type = $request_type;
 			return true;
 		}
 
@@ -157,7 +157,7 @@ class HTTP_Sajax
 		echo $this->getInitRequestObjectJavascript();
 		echo $this->getDoCallJavascript();
 
-		foreach ($this->export_list as $function_name) {
+		foreach ($this->_export_list as $function_name) {
 			echo $this->getFunctionStubJavascript($function_name);
 		}
 	}
@@ -214,7 +214,7 @@ class HTTP_Sajax
 
 		}
 		
-		if (!in_array($function_name, $this->export_list)) {
+		if (!in_array($function_name, $this->_export_list)) {
 			echo "-:The function '{$function_name}' is not callable.";
 		} else {
 			echo '+:';
@@ -311,7 +311,7 @@ class HTTP_Sajax
 	{
 		$javascript = 
 
-		"var sajax_request_type = '{$this->request_type}';\n" .
+		"var sajax_request_type = '{$this->_request_type}';\n" .
 
 		"function sajax_do_call(func_name, args) {\n" .
 		"	var i, request_object, n;\n" .
