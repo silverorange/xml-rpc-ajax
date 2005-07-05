@@ -1,6 +1,20 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
+// {{{ request type constants
+
+/**
+ * Constant for a HTTP GET request
+ */
+define('HTTP_SAJAX_TYPE_GET', 'GET');
+
+/**
+ * Constant for a HTTP POST request
+ */
+define('HTTP_SAJSX_TYPE_POST', 'POST');
+
+// }}}
+
 /**
  * Simple AJAX library for PHP
  *
@@ -30,19 +44,6 @@
  */
 class HTTP_Sajax
 {
-	// {{{ request type constants
-
-	/**
-	 * Constant for a HTTP GET request
-	 */
-	const TYPE_GET = 'GET';
-
-	/**
-	 * Constant for a HTTP POST request
-	 */
-	const TYPE_POST = 'POST';
-
-	// }}}
 	// {{{ public properties
 
 	/**
@@ -75,7 +76,7 @@ class HTTP_Sajax
 	/**
 	 * The type of HTTP request to use for server calls
 	 *
-	 * Defaults to {@link self::TYPE_GET}.
+	 * Defaults to {@link HTTP_SAJAX_TYPE_GET}.
 	 *
 	 * @var string
 	 */
@@ -89,7 +90,7 @@ class HTTP_Sajax
 	 */
 	public function __construct()
 	{
-		$this->request_type = self::TYPE_GET;
+		$this->request_type = HTTP_SAJAX_TYPE_GET;
 		$this->remote_uri = $_SERVER['REQUEST_URI'];
 	}
 
@@ -128,7 +129,7 @@ class HTTP_Sajax
 	 */
 	public function setRequestType($request_type)
 	{
-		$valid_types = array(self::TYPE_GET, self::TYPE_POST);
+		$valid_types = array(HTTP_SAJAX_TYPE_GET, HTTP_SAJAX_TYPE_POST);
 		
 		$request_type = strtoupper($request_type);
 		
@@ -165,7 +166,7 @@ class HTTP_Sajax
 	// {{{ public function handleClientRequest()
 
 	/**
-	 * Handles a client request via XML HTTP.
+	 * Handles a client request via HTTP.
 	 *
 	 * The handler checks to see if an exported function exists based on the
 	 * client request and if so, it executes and returns the PHP function from
@@ -178,22 +179,23 @@ class HTTP_Sajax
 	{
 		// look for magic client request variables to get request type
 		if (isset($_GET['rs'])) {
-			$mode = self::TYPE_GET;
+			$mode = HTTP_SAJAX_TYPE_GET;
 		} elseif (isset($_POST['rs'])) {
-			$mode = self::TYPE_POST;
+			$mode = HTTP_SAJAX_TYPE_POST;
 		} else {
 			return false;
 		}
 
-		if ($mode == self::TYPE_GET) {
+		if ($mode == HTTP_SAJAX_TYPE_GET) {
 
-			// Bust cache in the head
+			// Disable any caching with HTTP headers
 			// Any date in the past will do here
 			header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 			header ('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 			// Always modified
 			header ('Cache-Control: no-cache, must-revalidate');  // HTTP/1.1
 			header ('Pragma: no-cache');                          // HTTP/1.0
+
 			$function_name = $_GET['rs'];
 			if (isset($_GET['rsargs'])) {
 				$function_args = $_GET['rsargs'];
@@ -209,6 +211,7 @@ class HTTP_Sajax
 			} else {
 				$fuction_args = array();
 			}
+
 		}
 		
 		if (!in_array($function_name, $this->export_list)) {
@@ -318,7 +321,7 @@ class HTTP_Sajax
 		"	uri = '{$this->remote_uri}';\n" .
 
 		// build client request
-		"	if (sajax_request_type == '" . self::TYPE_GET . "') {\n" .
+		"	if (sajax_request_type == '" . HTTP_SAJAX_TYPE_GET . "') {\n" .
 		
 		"		if (uri.indexOf('?') == -1)\n" .
 		"			uri = uri + '?rs=' + escape(func_name);\n" .
@@ -340,7 +343,7 @@ class HTTP_Sajax
 		"	request_object = sajax_init_object();\n" .
 		"	request_object.open(sajax_request_type, uri, true);\n" .
 		
-		"	if (sajax_request_type == '" . self::TYPE_POST . "') {\n" .
+		"	if (sajax_request_type == '" . HTTP_SAJAX_TYPE_POST . "') {\n" .
 		"		request_object.setRequestHeader('Method',\n" .
 		"			'POST ' + uri + ' HTTP/1.1');\n" .
 		
