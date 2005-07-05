@@ -1,0 +1,5 @@
+- make work with objects
+- make request type settable per function
+- see about making some methods static
+- use SOAP XML for message passing instead of the weird string based concoction
+  from Sajax.
