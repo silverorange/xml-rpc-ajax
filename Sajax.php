@@ -152,13 +152,13 @@ class HTTP_Sajax
 	public function displayJavascript()
 	{
 		if ($this->debug_mode) {
-			echo $this->getDebugJavascript();
+			echo $this->_getDebugJavascript();
 		}
-		echo $this->getInitRequestObjectJavascript();
-		echo $this->getDoCallJavascript();
+		echo $this->_getInitRequestObjectJavascript();
+		echo $this->_getDoCallJavascript();
 
 		foreach ($this->_export_list as $function_name) {
-			echo $this->getFunctionStubJavascript($function_name);
+			echo $this->_getFunctionStubJavascript($function_name);
 		}
 	}
 
@@ -227,7 +227,7 @@ class HTTP_Sajax
 	}
 
 	// }}}
-	// {{{ private fucntion getDebugJavascript()
+	// {{{ private fucntion _getDebugJavascript()
 	
 	/**
 	 * Gets the javascript that displays debug information to the client if
@@ -236,7 +236,7 @@ class HTTP_Sajax
 	 * @return string the javascript to display debug information to the
 	 *                 client.
 	 */
-	private function getDebugJavascript()
+	private function _getDebugJavascript()
 	{
 		$javascript =
 
@@ -248,7 +248,7 @@ class HTTP_Sajax
 	}
 
 	// }}}
-	// {{{ private function getInitRequestObjectJavascript()
+	// {{{ private function _getInitRequestObjectJavascript()
 	
 	/**
 	 * Gets the javascript required to get a vaild XML HTTP request object in
@@ -257,7 +257,7 @@ class HTTP_Sajax
 	 * @return string the javascript to get a valid XML HTTP request object in
 	 *                 various browsers.
 	 */
-	private function getInitRequestObjectJavascript()
+	private function _getInitRequestObjectJavascript()
 	{
 		$javascript =
 
@@ -299,7 +299,7 @@ class HTTP_Sajax
 	}
 
 	// }}}
-	// {{{ private function getDoCallJavascript()
+	// {{{ private function _getDoCallJavascript()
 
 	/**
 	 * Gets the javascript to make asynchronous remote calls
@@ -307,7 +307,7 @@ class HTTP_Sajax
 	 * @return string the javascript necessary to make and receive asynchronous
 	 *                 remote calls.
 	 */
-	private function getDoCallJavascript()
+	private function _getDoCallJavascript()
 	{
 		$javascript = 
 
@@ -393,7 +393,7 @@ class HTTP_Sajax
 	}
 
 	// }}}
-	// {{{ private function getFunctionStubJavascript()
+	// {{{ private function _getFunctionStubJavascript()
 
 	/**
 	 * Generates a function stub in javascript for a PHP function
@@ -404,7 +404,7 @@ class HTTP_Sajax
 	 * @return string the javascript function stub for the given PHP function
 	 *                 name
 	 */
-	private function getFunctionStubJavascript($function_name)
+	private function _getFunctionStubJavascript($function_name)
 	{
 		$javascript =
 
