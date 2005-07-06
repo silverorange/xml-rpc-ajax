@@ -155,7 +155,6 @@ class HTTP_Sajax
 
         if ($shown === false) {
             echo $this->_getInitRequestObjectJavascript();
-            echo $this->_getDebugJavascript();
             echo $this->_getDoCallJavascript();
 
             foreach ($this->_export_list as $function_name) {
@@ -163,8 +162,8 @@ class HTTP_Sajax
             }
 
             echo 'var sajax = new Sajax();';
+
             $shown = true;
-            
         }
     }
 
@@ -251,39 +250,17 @@ class HTTP_Sajax
     }
 
     // }}}
-    // {{{ private fucntion _getDebugJavascript()
-
-    /**
-     * Gets the javascript that displays debug information to the client if
-     * debug mode is enabled.
-     *
-     * @return string the javascript to display debug information to the
-     *                 client.
-     */
-    private function _getDebugJavascript()
-    {
-        $javascript =
-
-<<<JAVASCRIPT
-        Sajax.prototype.debug = function(text)
-        {
-            if (this.debug_mode) {
-                alert('RSD: ' + text);
-            }
-        }
-
-JAVASCRIPT;
-
-        return $javascript;
-    }
-
-    // }}}
     // {{{ private function _getInitRequestObjectJavascript()
 
     /**
      * Gets the javascript required to get a vaild XML HTTP request object in
      * various browsers
      *
+     * Gets the javascript that displays debug information to the client if
+     * debug mode is enabled.
+     *
+     * @return string the javascript to display debug information to the
+     *                 client.
      * @return string the javascript to get a valid XML HTTP request object in
      *                 various browsers.
      */
@@ -298,6 +275,13 @@ JAVASCRIPT;
             this.request_uri = '{$this->remote_uri}';
             this.request_type = '{$this->_request_type}';
             this.request_object = this.getHttpRequestObject();
+        }
+
+        Sajax.prototype.debug = function(text)
+        {
+            if (this.debug_mode) {
+                alert('RSD: ' + text);
+            }
         }
         
         Sajax.prototype.getHttpRequestObject = function()
@@ -316,8 +300,9 @@ JAVASCRIPT;
                 }
             }
 
-            if (!request_object && typeof XMLHttpRequest != 'undefined')
+            if (!request_object && typeof XMLHttpRequest != 'undefined') {
                 request_object = new XMLHttpRequest();
+            }
 
             if (!request_object) {
                 this.debug('Could not create connection object.');
@@ -435,10 +420,10 @@ JAVASCRIPT;
     // {{{ private function _getFunctionStubJavascript()
 
     /**
-     * Generates a function stub in javascript for a PHP function
+     * Generates a method stub in javascript for a PHP function
      *
-     * The function stub is a wrapper for the javascript sajax_do_call()
-     * function.
+     * The method stub is a wrapper for the javascript callFunction()
+     * method.
      *
      * @return string the javascript function stub for the given PHP function
      *                 name
