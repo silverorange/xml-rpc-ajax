@@ -151,14 +151,19 @@ class HTTP_Sajax
      */
     public function displayJavascript()
     {
-        if ($this->debug_mode) {
-            echo $this->_getDebugJavascript();
-        }
-        echo $this->_getInitRequestObjectJavascript();
-        echo $this->_getDoCallJavascript();
+        static $shown = false;
 
-        foreach ($this->_export_list as $function_name) {
-            echo $this->_getFunctionStubJavascript($function_name);
+        if ($shown === false) {
+            if ($this->debug_mode) {
+                echo $this->_getDebugJavascript();
+            }
+            echo $this->_getInitRequestObjectJavascript();
+            echo $this->_getDoCallJavascript();
+
+            foreach ($this->_export_list as $function_name) {
+                echo $this->_getFunctionStubJavascript($function_name);
+            }
+            $shown = true;
         }
     }
 
@@ -262,6 +267,7 @@ class HTTP_Sajax
         function sajax_debug(text) {
             alert('RSD: ' + text);
         }
+
 JAVASCRIPT;
 
         return $javascript;
@@ -283,6 +289,7 @@ JAVASCRIPT;
 
 <<<JAVASCRIPT
         function sajax_init_object() {
+
 JAVASCRIPT;
 
         if ($this->debug_mode) {
@@ -290,6 +297,7 @@ JAVASCRIPT;
 
 <<<JAVASCRIPT
              sajax_debug('sajax_init_object() called..');
+
 JAVASCRIPT;
 
         }
@@ -310,6 +318,7 @@ JAVASCRIPT;
             }
             if (!request_object && typeof XMLHttpRequest != 'undefined')
                 request_object = new XMLHttpRequest();
+
 JAVASCRIPT;
 
         if ($this->debug_mode) {
@@ -318,6 +327,7 @@ JAVASCRIPT;
 <<<JAVASCRIPT
             if (!request_object)
                 sajax_debug('Could not create connection object.');
+
 JAVASCRIPT;
 
         }
@@ -327,6 +337,7 @@ JAVASCRIPT;
 <<<JAVASCRIPT
             return request_object;
         }
+
 JAVASCRIPT;
 
         return $javascript;
@@ -394,6 +405,7 @@ JAVASCRIPT;
             request_object.onreadystatechange = function() {
                 if (request_object.readyState != 4)
                     return;
+
 JAVASCRIPT;
 
         if ($this->debug_mode) {
@@ -401,6 +413,7 @@ JAVASCRIPT;
 
 <<<JAVASCRIPT
                 sajax_debug('received ' + request_object.responseText);
+
 JAVASCRIPT;
 
         }
@@ -420,6 +433,7 @@ JAVASCRIPT;
 
             // send client request
             request_object.send(post_data);
+
 JAVASCRIPT;
 
         if ($this->debug_mode) {
@@ -429,6 +443,7 @@ JAVASCRIPT;
             sajax_debug(func_name + ' uri = ' +
                 uri + '/post = ' + post_data);
             sajax_debug(func_name + ' waiting ...');
+
 JAVASCRIPT;
 
         }
@@ -439,6 +454,7 @@ JAVASCRIPT;
             // clean up
             delete request_object;
         }
+
 JAVASCRIPT;
 
         return $javascript;
@@ -466,6 +482,7 @@ JAVASCRIPT;
             sajax_do_call('{$function_name}',
                 x_{$function_name}.arguments);
         }
+
 JAVASCRIPT;
 
         return $javascript;
