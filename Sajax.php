@@ -258,9 +258,11 @@ class HTTP_Sajax
     {
         $javascript =
 
-        "function sajax_debug(text) {\n" .
-        "    alert('RSD: ' + text);\n" .
-        "}\n";
+<<<JAVASCRIPT
+        function sajax_debug(text) {
+            alert('RSD: ' + text);
+        }
+JAVASCRIPT;
 
         return $javascript;
     }
@@ -279,39 +281,53 @@ class HTTP_Sajax
     {
         $javascript =
 
-        "function sajax_init_object() {\n";
+<<<JAVASCRIPT
+        function sajax_init_object() {
+JAVASCRIPT;
 
         if ($this->debug_mode) {
             $javascript .=
-         "    sajax_debug('sajax_init_object() called..')\n";
+
+<<<JAVASCRIPT
+             sajax_debug('sajax_init_object() called..');
+JAVASCRIPT;
+
         }
 
         $javascript .=
 
-         "    var request_object;\n" .
-        "    try {\n" .
-        "        request_object = new ActiveXObject('Msxml2.XMLHTTP');\n" .
-        "    } catch (e) {\n" .
-        "        try {\n" .
-        "            request_object =\n" .
-        "                new ActiveXObject('Microsoft.XMLHTTP');\n" .
-        "        } catch (oc) {\n" .
-        "            request_object = null;\n" .
-        "        }\n" .
-        "    }\n" .
-        "    if (!request_object && typeof XMLHttpRequest != 'undefined')\n" .
-        "        request_object = new XMLHttpRequest();\n";
+<<<JAVASCRIPT
+            var request_object;
+            try {
+                request_object = new ActiveXObject('Msxml2.XMLHTTP');
+            } catch (e) {
+                try {
+                    request_object =
+                        new ActiveXObject('Microsoft.XMLHTTP');
+                } catch (oc) {
+                    request_object = null;
+                }
+            }
+            if (!request_object && typeof XMLHttpRequest != 'undefined')
+                request_object = new XMLHttpRequest();
+JAVASCRIPT;
 
         if ($this->debug_mode) {
             $javascript .=
-        "    if (!request_object)\n" .
-        "        sajax_debug('Could not create connection object.');\n";
+
+<<<JAVASCRIPT
+            if (!request_object)
+                sajax_debug('Could not create connection object.');
+JAVASCRIPT;
+
         }
 
         $javascript .=
-        
-        "    return request_object;\n" .
-        "}\n";
+
+<<<JAVASCRIPT
+            return request_object;
+        }
+JAVASCRIPT;
 
         return $javascript;
     }
@@ -327,85 +343,103 @@ class HTTP_Sajax
      */
     private function _getDoCallJavascript()
     {
+        // can't display constants in heredoc syntax
+        $get = HTTP_SAJAX_TYPE_GET;
+        $post = HTTP_SAJAX_TYPE_POST;
+
         $javascript = 
 
-        "var sajax_request_type = '{$this->_request_type}';\n" .
+<<<JAVASCRIPT
+        var sajax_request_type = '{$this->_request_type}';
 
-        "function sajax_do_call(func_name, args) {\n" .
-        "    var i, request_object, n;\n" .
-        "    var uri;\n" .
-        "    var post_data;\n" .
+        function sajax_do_call(func_name, args) {
+            var i, request_object, n;
+            var uri;
+            var post_data;
 
-        "    uri = '{$this->remote_uri}';\n" .
+            uri = '{$this->remote_uri}';
 
-        // build client request
-        "    if (sajax_request_type == '" . HTTP_SAJAX_TYPE_GET . "') {\n" .
+            // build client request
+            if (sajax_request_type == '{$get}') {
         
-        "        if (uri.indexOf('?') == -1)\n" .
-        "            uri = uri + '?rs=' + escape(func_name);\n" .
-        "        else\n" .
-        "            uri = uri + '&rs=' + escape(func_name);\n" .
-        "        for (i = 0; i < args.length-1; i++)\n" .
-        "            uri = uri + '&rsargs[]=' + escape(args[i]);\n" .
-        "        uri = uri + '&rsrnd=' + new Date().getTime();\n" .
-        "        post_data = null;\n" .
+                if (uri.indexOf('?') == -1)
+                    uri = uri + '?rs=' + escape(func_name);
+                else
+                    uri = uri + '&rs=' + escape(func_name);
+                for (i = 0; i < args.length-1; i++)
+                    uri = uri + '&rsargs[]=' + escape(args[i]);
+                uri = uri + '&rsrnd=' + new Date().getTime();
+                post_data = null;
 
-        "    } else {\n" .
+            } else {
         
-        "        post_data = 'rs=' + escape(func_name);\n" .
-        "        for (i = 0; i < args.length-1; i++)\n" .
-        "            post_data = post_data + '&rsargs[]=' + escape(args[i]);\n" .
+                post_data = 'rs=' + escape(func_name);
+                for (i = 0; i < args.length-1; i++)
+                    post_data = post_data + '&rsargs[]=' + escape(args[i]);
 
-        "    }\n" .
+            }
             
-        "    request_object = sajax_init_object();\n" .
-        "    request_object.open(sajax_request_type, uri, true);\n" .
+            request_object = sajax_init_object();
+            request_object.open(sajax_request_type, uri, true);
 
-        "    if (sajax_request_type == '" . HTTP_SAJAX_TYPE_POST . "') {\n" .
-        "        request_object.setRequestHeader('Method',\n" .
-        "            'POST ' + uri + ' HTTP/1.1');\n" .
+            if (sajax_request_type == '{$post}') {
+                request_object.setRequestHeader('Method',
+                    'POST ' + uri + ' HTTP/1.1');
 
-        "        request_object.setRequestHeader('Content-Type',\n" .
-        "            'application/x-www-form-urlencoded');\n" .
-        "    }\n" .
+                request_object.setRequestHeader('Content-Type',
+                    'application/x-www-form-urlencoded');
+            }
 
-        // server response handler
-        "    request_object.onreadystatechange = function() {\n" .
-        "        if (request_object.readyState != 4)\n" .
-        "            return;\n";
-
-        if ($this->debug_mode) {
-            $javascript .=
-        "        sajax_debug('received ' + request_object.responseText);\n";
-        }
-
-        $javascript .=
-                
-        "        var status;\n" .
-        "        var data;\n" .
-        "        status = request_object.responseText.charAt(0);\n" .
-        "        data = request_object.responseText.substring(2);\n" .
-        "        if (status == '-')\n" .
-        "            alert('Error: ' + data);\n" .
-        "        else\n" .
-        "            args[args.length-1](data);\n" .
-        "    }\n" .
-
-        // send client request
-        "    request_object.send(post_data);\n";
+            // server response handler
+            request_object.onreadystatechange = function() {
+                if (request_object.readyState != 4)
+                    return;
+JAVASCRIPT;
 
         if ($this->debug_mode) {
             $javascript .=
-        "    sajax_debug(func_name + ' uri = ' +\n" .
-        "        uri + '/post = ' + post_data);\n" .
-        "    sajax_debug(func_name + ' waiting ...');\n";
+
+<<<JAVASCRIPT
+                sajax_debug('received ' + request_object.responseText);
+JAVASCRIPT;
+
         }
 
         $javascript .=
 
-        // clean up
-        "    delete request_object;\n" .
-        "}\n";
+<<<JAVASCRIPT
+                var status;
+                var data;
+                status = request_object.responseText.charAt(0);
+                data = request_object.responseText.substring(2);
+                if (status == '-')
+                    alert('Error: ' + data);
+                else
+                    args[args.length-1](data);
+            }
+
+            // send client request
+            request_object.send(post_data);
+JAVASCRIPT;
+
+        if ($this->debug_mode) {
+            $javascript .=
+
+<<<JAVASCRIPT
+            sajax_debug(func_name + ' uri = ' +
+                uri + '/post = ' + post_data);
+            sajax_debug(func_name + ' waiting ...');
+JAVASCRIPT;
+
+        }
+
+        $javascript .=
+
+<<<JAVASCRIPT
+            // clean up
+            delete request_object;
+        }
+JAVASCRIPT;
 
         return $javascript;
     }
@@ -426,11 +460,13 @@ class HTTP_Sajax
     {
         $javascript =
 
-        "// wrapper for  {$function_name}\n" .
-        "function x_{$function_name}() {\n" .
-        "    sajax_do_call('{$function_name}',\n" .
-        "        x_{$function_name}.arguments);\n" .
-        "}\n";
+<<<JAVASCRIPT
+        // wrapper for  {$function_name}
+        function x_{$function_name}() {
+            sajax_do_call('{$function_name}',
+                x_{$function_name}.arguments);
+        }
+JAVASCRIPT;
 
         return $javascript;
     }
