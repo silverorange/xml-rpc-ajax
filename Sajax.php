@@ -154,16 +154,17 @@ class HTTP_Sajax
         static $shown = false;
 
         if ($shown === false) {
-            if ($this->debug_mode) {
-                echo $this->_getDebugJavascript();
-            }
             echo $this->_getInitRequestObjectJavascript();
+            echo $this->_getDebugJavascript();
             echo $this->_getDoCallJavascript();
 
             foreach ($this->_export_list as $function_name) {
                 echo $this->_getFunctionStubJavascript($function_name);
             }
+
+            echo 'var sajax = new Sajax();';
             $shown = true;
+            
         }
     }
 
@@ -264,8 +265,11 @@ class HTTP_Sajax
         $javascript =
 
 <<<JAVASCRIPT
-        function sajax_debug(text) {
-            alert('RSD: ' + text);
+        Sajax.prototype.debug = function(text)
+        {
+            if (this.debug_mode) {
+                alert('RSD: ' + text);
+            }
         }
 
 JAVASCRIPT;
@@ -288,53 +292,37 @@ JAVASCRIPT;
         $javascript =
 
 <<<JAVASCRIPT
-        function sajax_init_object() {
-
-JAVASCRIPT;
-
-        if ($this->debug_mode) {
-            $javascript .=
-
-<<<JAVASCRIPT
-             sajax_debug('sajax_init_object() called..');
-
-JAVASCRIPT;
-
+        function Sajax()
+        {
+            this.debug_mode = false;
+            this.request_uri = '{$this->remote_uri}';
+            this.request_type = '{$this->_request_type}';
+            this.request_object = this.getHttpRequestObject();
         }
+        
+        Sajax.prototype.getHttpRequestObject = function()
+        {
+            this.debug('getHttpRequestObject() called ...');
 
-        $javascript .=
-
-<<<JAVASCRIPT
             var request_object;
+
             try {
                 request_object = new ActiveXObject('Msxml2.XMLHTTP');
-            } catch (e) {
+            } catch (err1) {
                 try {
-                    request_object =
-                        new ActiveXObject('Microsoft.XMLHTTP');
-                } catch (oc) {
+                    request_object = new ActiveXObject('Microsoft.XMLHTTP');
+                } catch (err2) {
                     request_object = null;
                 }
             }
+
             if (!request_object && typeof XMLHttpRequest != 'undefined')
                 request_object = new XMLHttpRequest();
 
-JAVASCRIPT;
+            if (!request_object) {
+                this.debug('Could not create connection object.');
+            }
 
-        if ($this->debug_mode) {
-            $javascript .=
-
-<<<JAVASCRIPT
-            if (!request_object)
-                sajax_debug('Could not create connection object.');
-
-JAVASCRIPT;
-
-        }
-
-        $javascript .=
-
-<<<JAVASCRIPT
             return request_object;
         }
 
@@ -361,98 +349,81 @@ JAVASCRIPT;
         $javascript = 
 
 <<<JAVASCRIPT
-        var sajax_request_type = '{$this->_request_type}';
 
-        function sajax_do_call(func_name, args) {
-            var i, request_object, n;
-            var uri;
+        Sajax.prototype.callFunction = function(func_name, args)
+        {
+            var n;
             var post_data;
 
-            uri = '{$this->remote_uri}';
-
             // build client request
-            if (sajax_request_type == '{$get}') {
+            if (this.request_type == '{$get}') {
         
-                if (uri.indexOf('?') == -1)
-                    uri = uri + '?rs=' + escape(func_name);
-                else
-                    uri = uri + '&rs=' + escape(func_name);
-                for (i = 0; i < args.length-1; i++)
-                    uri = uri + '&rsargs[]=' + escape(args[i]);
-                uri = uri + '&rsrnd=' + new Date().getTime();
+                if (this.request_uri.indexOf('?') == -1) {
+                    this.request_uri = this.request_uri + '?rs=' +
+                        encodeURI(func_name);
+                } else {
+                    this.request_uri = this.request_uri + '&rs=' +
+                        encodeURI(func_name);
+                }
+
+                for (var i = 0; i < args.length - 1; i++) {
+                    this.request_uri = this.request_uri + '&rsargs[]=' +
+                        encodeURI(args[i]);
+                }
+
+                this.request_uri = this.request_uri + '&rsrnd=' +
+                    new Date().getTime();
+
                 post_data = null;
 
             } else {
         
-                post_data = 'rs=' + escape(func_name);
-                for (i = 0; i < args.length-1; i++)
-                    post_data = post_data + '&rsargs[]=' + escape(args[i]);
+                post_data = 'rs=' + encodeURI(func_name);
+                for (var i = 0; i < args.length - 1; i++) {
+                    post_data = post_data + '&rsargs[]=' + encodeURI(args[i]);
+                }
 
             }
             
-            request_object = sajax_init_object();
-            request_object.open(sajax_request_type, uri, true);
+            this.request_object.open(this.request_type, this.request_uri, true);
 
-            if (sajax_request_type == '{$post}') {
-                request_object.setRequestHeader('Method',
-                    'POST ' + uri + ' HTTP/1.1');
+            if (this.request_type == '{$post}') {
+                this.request_object.setRequestHeader('Method',
+                    'POST ' + this.request_uri + ' HTTP/1.1');
 
-                request_object.setRequestHeader('Content-Type',
+                this.request_object.setRequestHeader('Content-Type',
                     'application/x-www-form-urlencoded');
             }
 
+            // inside the anonymous function 'this' is not the Sajax object.
+            var self = this;
+            
             // server response handler
-            request_object.onreadystatechange = function() {
-                if (request_object.readyState != 4)
+            this.request_object.onreadystatechange = function()
+            {
+                if (self.request_object.readyState != 4)
                     return;
 
-JAVASCRIPT;
+                self.debug('received ' + self.request_object.responseText);
 
-        if ($this->debug_mode) {
-            $javascript .=
-
-<<<JAVASCRIPT
-                sajax_debug('received ' + request_object.responseText);
-
-JAVASCRIPT;
-
-        }
-
-        $javascript .=
-
-<<<JAVASCRIPT
-                var status;
-                var data;
-                status = request_object.responseText.charAt(0);
-                data = request_object.responseText.substring(2);
-                if (status == '-')
+                var status, data;
+                status = self.request_object.responseText.charAt(0);
+                data = self.request_object.responseText.substring(2);
+                if (status == '-') {
                     alert('Error: ' + data);
-                else
+                } else {
+                    // the last argument should be a callback function
                     args[args.length-1](data);
+                }
             }
 
             // send client request
-            request_object.send(post_data);
+            this.request_object.send(post_data);
 
-JAVASCRIPT;
-
-        if ($this->debug_mode) {
-            $javascript .=
-
-<<<JAVASCRIPT
-            sajax_debug(func_name + ' uri = ' +
-                uri + '/post = ' + post_data);
-            sajax_debug(func_name + ' waiting ...');
-
-JAVASCRIPT;
-
-        }
-
-        $javascript .=
-
-<<<JAVASCRIPT
-            // clean up
-            delete request_object;
+            this.debug(func_name + ' uri = ' + this.request_uri +
+                '/post = ' + post_data);
+            
+            this.debug(func_name + ' waiting for response ...');
         }
 
 JAVASCRIPT;
@@ -477,10 +448,10 @@ JAVASCRIPT;
         $javascript =
 
 <<<JAVASCRIPT
-        // wrapper for  {$function_name}
-        function x_{$function_name}() {
-            sajax_do_call('{$function_name}',
-                x_{$function_name}.arguments);
+        Sajax.prototype.x_{$function_name} = function()
+        {
+            this.callFunction('{$function_name}',
+                this.x_{$function_name}.arguments);
         }
 
 JAVASCRIPT;
