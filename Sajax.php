@@ -11,7 +11,7 @@ define('HTTP_SAJAX_TYPE_GET', 'GET');
 /**
  * Constant for a HTTP POST request
  */
-define('HTTP_SAJSX_TYPE_POST', 'POST');
+define('HTTP_SAJAX_TYPE_POST', 'POST');
 
 // }}}
 
