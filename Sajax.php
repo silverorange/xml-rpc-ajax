@@ -274,19 +274,6 @@ class HTTP_Sajax
             this.debug_mode = false;
             this.request_uri = '{$this->remote_uri}';
             this.request_type = '{$this->_request_type}';
-            this.request_object = this.getHttpRequestObject();
-        }
-
-        Sajax.prototype.debug = function(text)
-        {
-            if (this.debug_mode) {
-                alert('RSD: ' + text);
-            }
-        }
-        
-        Sajax.prototype.getHttpRequestObject = function()
-        {
-            this.debug('getHttpRequestObject() called ...');
 
             var request_object;
 
@@ -306,9 +293,17 @@ class HTTP_Sajax
 
             if (!request_object) {
                 this.debug('Could not create connection object.');
+                this.request_object = null;
+            } else {
+                this.request_object = request_object;
             }
+        }
 
-            return request_object;
+        Sajax.prototype.debug = function(text)
+        {
+            if (this.debug_mode) {
+                alert('RSD: ' + text);
+            }
         }
 
 JAVASCRIPT;
@@ -337,26 +332,25 @@ JAVASCRIPT;
 
         Sajax.prototype.callFunction = function(func_name, args)
         {
-            var n;
-            var post_data;
+            var post_data, request_uri;
+
+            request_uri = this.request_uri;
 
             // build client request
             if (this.request_type == '{$get}') {
         
-                if (this.request_uri.indexOf('?') == -1) {
-                    this.request_uri = this.request_uri + '?rs=' +
-                        encodeURI(func_name);
+                if (request_uri.indexOf('?') == -1) {
+                    request_uri = request_uri + '?rs=' + encodeURI(func_name);
                 } else {
-                    this.request_uri = this.request_uri + '&rs=' +
-                        encodeURI(func_name);
+                    request_uri = request_uri + '&rs=' + encodeURI(func_name);
                 }
 
                 for (var i = 0; i < args.length - 1; i++) {
-                    this.request_uri = this.request_uri + '&rsargs[]=' +
+                    request_uri = request_uri + '&rsargs[]=' +
                         encodeURI(args[i]);
                 }
 
-                this.request_uri = this.request_uri + '&rsrnd=' +
+                request_uri = request_uri + '&rsrnd=' +
                     new Date().getTime();
 
                 post_data = null;
@@ -370,7 +364,7 @@ JAVASCRIPT;
 
             }
             
-            this.request_object.open(this.request_type, this.request_uri, true);
+            this.request_object.open(this.request_type, request_uri, true);
 
             if (this.request_type == '{$post}') {
                 this.request_object.setRequestHeader('Method',
