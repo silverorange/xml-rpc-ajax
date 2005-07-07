@@ -382,7 +382,7 @@ class HTTP_Sajax
         Sajax.prototype.debug = function(text)
         {
             if (this.debug_mode) {
-                alert('RSD: ' + text);
+                alert('Sajax: ' + text);
             }
         }
 
