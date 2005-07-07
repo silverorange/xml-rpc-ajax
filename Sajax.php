@@ -208,7 +208,7 @@ class HTTP_Sajax
             if (isset($_POST['rsargs'])) {
                 $function_args = $_POST['rsargs'];
             } else {
-                $fuction_args = array();
+                $function_args = array();
             }
 
         }
