@@ -63,6 +63,16 @@ class HTTP_Sajax
      */
     public $remote_uri = '';
 
+    /**
+     * An identifier string for this Sajax object
+     *
+     * The identifier string is used in javascript to reference a particular
+     * object instance.
+     *
+     * @var string
+     */
+    public $id = '';
+
     // }}}
     // {{{ private properties
 
@@ -76,8 +86,6 @@ class HTTP_Sajax
     /**
      * The type of HTTP request to use for server calls
      *
-     * Defaults to {@link HTTP_SAJAX_TYPE_GET}.
-     *
      * @var string
      */
     private $_request_type = '';
@@ -87,10 +95,23 @@ class HTTP_Sajax
     
     /**
      * Creates a new Simple AJAX object
+     *
+     * @param string $id an identifier for this Sajax object that is used in
+     *                    client-side javascript.
+     *
+     * @param string $request_type the type of HTTP request to use for server
+     *                              calls. If an invalid type is specified, the
+     *                              default of {@link HTTP_SAJAX_TYPE_GET} is
+     *                              used.
      */
-    public function __construct()
+    public function __construct($id, $request_type = HTTP_SAJAX_TYPE_GET)
     {
-        $this->_request_type = HTTP_SAJAX_TYPE_GET;
+        $this->id = $id;
+
+        if (!$this->setRequestType($request_type)) {
+            $this->_request_type = HTTP_SAJAX_TYPE_GET;
+        }
+
         $this->remote_uri = $_SERVER['REQUEST_URI'];
     }
 
@@ -161,10 +182,11 @@ class HTTP_Sajax
                 echo $this->_getFunctionStubJavascript($function_name);
             }
 
-            echo 'var sajax = new Sajax();';
-
             $shown = true;
         }
+
+        // create javascript object
+        echo "var {$this->id} = new Sajax();\n";
     }
 
     // }}}
@@ -183,34 +205,37 @@ class HTTP_Sajax
     public function handleClientRequest()
     {
         // look for magic client request variables to get request type
-        if (isset($_GET['rs'])) {
-            $mode = HTTP_SAJAX_TYPE_GET;
-        } elseif (isset($_POST['rs'])) {
-            $mode = HTTP_SAJAX_TYPE_POST;
-        } else {
+        if (!isset($_GET['rs']) && !isset($_POST['rs'])) {
             return false;
         }
 
         $this->_sendHeaders();
 
-        if ($mode == HTTP_SAJAX_TYPE_GET) {
+        $function_name = '';
+        $function_args = array();
 
-            $function_name = $_GET['rs'];
+        switch ($this->_request_type) {
+        case HTTP_SAJAX_TYPE_GET:
+
+            if (isset($_GET['rs'])) {
+                $function_name = $_GET['rs'];
+            }
             if (isset($_GET['rsargs'])) {
                 $function_args = $_GET['rsargs'];
-            } else {
-                $function_args = array();
             }
 
-        } else {
+            break;
+            
+        case HTTP_SAJAX_POST:
 
-            $function_name = $_POST['rs'];
+            if (isset($_POST['rs'])) {
+                $function_name = $_POST['rs'];
+            }
             if (isset($_POST['rsargs'])) {
                 $function_args = $_POST['rsargs'];
-            } else {
-                $function_args = array();
             }
 
+            break;
         }
 
         if (!in_array($function_name, $this->_export_list)) {
