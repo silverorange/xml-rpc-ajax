@@ -175,9 +175,7 @@ class HTTP_Sajax
         static $shown = false;
 
         if ($shown === false) {
-            echo $this->_getInitRequestObjectJavascript();
-            echo $this->_getDoCallJavascript();
-
+            echo $this->_getObjectJavascript();
             foreach ($this->_export_list as $function_name) {
                 echo $this->_getFunctionStubJavascript($function_name);
             }
@@ -275,21 +273,21 @@ class HTTP_Sajax
     }
 
     // }}}
-    // {{{ private function _getInitRequestObjectJavascript()
+    // {{{ private function _getInitObjectJavascript()
 
     /**
-     * Gets the javascript required to get a vaild XML HTTP request object in
-     * various browsers
+     * Gets the javascript for a Sajax javascript object
      *
-     * Gets the javascript that displays debug information to the client if
-     * debug mode is enabled.
+     * The Sajax javascript object has everthing required to make asynchronous
+     * XML HTTP requests object in various browsers and has a method to handle
+     * the XML result returned by the PHP server.
      *
-     * @return string the javascript to display debug information to the
-     *                 client.
-     * @return string the javascript to get a valid XML HTTP request object in
-     *                 various browsers.
+     * The Sajax object is also able to display debug information to the client
+     * if debug mode is enabled.
+     *
+     * @return string the javascript for the Sajax object.
      */
-    private function _getInitRequestObjectJavascript()
+    private function _getObjectJavascript()
     {
         $javascript =
 
@@ -331,30 +329,6 @@ class HTTP_Sajax
             }
         }
 
-JAVASCRIPT;
-
-        return $javascript;
-    }
-
-    // }}}
-    // {{{ private function _getDoCallJavascript()
-
-    /**
-     * Gets the javascript to make asynchronous remote calls
-     *
-     * @return string the javascript necessary to make and receive asynchronous
-     *                 remote calls.
-     */
-    private function _getDoCallJavascript()
-    {
-        // can't display constants in heredoc syntax
-        $get = HTTP_SAJAX_TYPE_GET;
-        $post = HTTP_SAJAX_TYPE_POST;
-
-        $javascript = 
-
-<<<JAVASCRIPT
-
         Sajax.prototype.callFunction = function(func_name, args)
         {
             var post_data, request_uri;
@@ -362,7 +336,7 @@ JAVASCRIPT;
             request_uri = this.request_uri;
 
             // build client request
-            if (this.request_type == '{$get}') {
+            if (this.request_type == 'GET') {
         
                 if (request_uri.indexOf('?') == -1) {
                     request_uri = request_uri + '?rs=' + encodeURI(func_name);
@@ -391,7 +365,7 @@ JAVASCRIPT;
             
             this.request_object.open(this.request_type, request_uri, true);
 
-            if (this.request_type == '{$post}') {
+            if (this.request_type == 'POST') {
                 this.request_object.setRequestHeader('Method',
                     'POST ' + this.request_uri + ' HTTP/1.1');
 
