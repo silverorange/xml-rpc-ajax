@@ -135,7 +135,7 @@ class HTTP_Sajax
     }
 
     // }}}
-    // {{{ public function setRequestType(0
+    // {{{ public function setRequestType()
 
     /**
      * Set the request type of this AJAX object
@@ -273,7 +273,7 @@ class HTTP_Sajax
     }
 
     // }}}
-    // {{{ private function _getInitObjectJavascript()
+    // {{{ private function _getObjectJavascript()
 
     /**
      * Gets the javascript for a Sajax javascript object
