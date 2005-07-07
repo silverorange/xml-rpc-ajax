@@ -184,7 +184,7 @@ class HTTP_Sajax
         }
 
         // create javascript object
-        echo "var {$this->id} = new Sajax();\n";
+        echo "\tvar {$this->id} = new Sajax();\n\n";
     }
 
     // }}}
@@ -481,6 +481,7 @@ class HTTP_Sajax
             this.debug(func_name + ' waiting for response ...');
         }
 
+
 JAVASCRIPT;
 
         return $javascript;
@@ -508,6 +509,7 @@ JAVASCRIPT;
             this.callFunction('{$function_name}',
                 this.x_{$function_name}.arguments);
         }
+
 
 JAVASCRIPT;
 
