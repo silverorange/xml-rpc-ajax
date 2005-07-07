@@ -24,10 +24,19 @@ define('HTTP_SAJAX_TYPE_POST', 'POST');
  * manipulate the document object through javascript.
  *
  * This package allows you to use AJAX techniques to call server side PHP
- * functions from javascript without causing a full page request. This package
- * does not necessarily make use of the XML part of AJAX, it merely makes use
- * of the asynchronous javascript part. That said, it is certainly possible to
- * take advantage of XML with this package.
+ * functions from javascript without causing a full page request.
+ *
+ * Function calls occur as follows:
+ *
+ * 1. Server renders javascript on client browser.
+ * 2. Client javascript calls function wrapper written in javascript.
+ * 3. Function wrapper uses XMLHttpRequest object to ask the server to
+ *    execute the function in PHP.
+ * 4. HTTP request is sent to the server and server responds by rendering
+ *    an XML document with PHP. The XML document contains the return value of
+ *    the functon on the server.
+ * 5. Client javascript finishes receiving server response and parses XML to
+ *    retrieve return value of server side function.
  * 
  * Derived from the Sajax PHP library written by ModernMethod Inc and licensed
  * under a BSD style license. See "http://modernmethod.com/sajax/".
