@@ -194,8 +194,9 @@ class HTTP_Sajax
      * Handles a client request via HTTP.
      *
      * The handler checks to see if an exported function exists based on the
-     * client request and if so, it executes and returns the PHP function from
-     * the server to the client.
+     * client request. If the exported function exists, this method executes
+     * the function and wraps the result in an XML document and then sends the
+     * XML document to the client.
      *
      * After the request has been handled, this function calls exit() to ensure
      * the request is finished.
@@ -224,7 +225,7 @@ class HTTP_Sajax
 
             break;
             
-        case HTTP_SAJAX_POST:
+        case HTTP_SAJAX_TYPE_POST:
 
             if (isset($_POST['rs'])) {
                 $function_name = $_POST['rs'];
@@ -237,15 +238,71 @@ class HTTP_Sajax
         }
 
         if (!in_array($function_name, $this->_export_list)) {
-            echo "-:The function '{$function_name}' is not callable.";
-        } else {
-            echo '+:';
-            // assume this returns a string
-            echo call_user_func_array($function_name, $function_args);
-        }
 
+            $value = "The function '{$function_name}' is not callable.";
+            $status = 'error';
+
+        } else {
+
+            $value = call_user_func_array($function_name, $function_args);
+            $status = 'normal';
+
+        }
+        
+        echo $this->_getResponseXML($value, $status);
+        
         // end client request
         exit;
+    }
+
+    // }}}
+    // {{{ private function _getResponseXML()
+
+    /**
+     * Gets the result of a PHP function or method wrapped in an XML document
+     *
+     * The XML document is well formed standalone XML. The XML document
+     * contains the following elements:
+     *
+     * 1. response
+     *
+     * Response is the root element and all other elements are children of
+     * the response element.
+     *
+     * 2. status
+     *
+     * The status is a string describing the status of the function or method
+     * call. Valid values are "normal" and "error".
+     *
+     * 3. type
+     *
+     * The type indicates the variable type of the returned result. Valid
+     * values are any of the builtin PHP types or an object class name.
+     *
+     * 4. value
+     *
+     * This is the value returned by the function or method. The value is
+     * encapsulated in a CDATA section so that XHTML string may be safely
+     * returned by functions and methods.
+     *
+     * @param mixed $value the value of the function or method call.
+     * @param string $status the status of the fucntion or method call.
+     *
+     * @return string a well formed XML document containg response information
+     *                 of a PHP function or method call.
+     */
+    private function _getResponseXML($value, $status)
+    {
+        $xml =
+        
+        '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' . "\n" .
+        "<response>\n" .
+        '  <status>' . $status . "</status>\n" .
+        '  <type>' . gettype($value) . "</type>\n" .
+        '  <value><![CDATA[' . $value . "]]></value>\n" .
+        "</response>\n";
+
+        return $xml;
     }
 
     // }}}
@@ -366,11 +423,17 @@ class HTTP_Sajax
             this.request_object.open(this.request_type, request_uri, true);
 
             if (this.request_type == 'POST') {
-                this.request_object.setRequestHeader('Method',
-                    'POST ' + this.request_uri + ' HTTP/1.1');
+                try {
+                    this.request_object.setRequestHeader('Method',
+                        'POST ' + this.request_uri + ' HTTP/1.1');
 
-                this.request_object.setRequestHeader('Content-Type',
-                    'application/x-www-form-urlencoded');
+                    this.request_object.setRequestHeader('Content-Type',
+                        'application/x-www-form-urlencoded');
+                } catch (e) {
+                    alert('Request object busy. ' +
+                        'Cound not send data to the server. ' +
+                        'Please Try again.');
+                }
             }
 
             // inside the anonymous function 'this' is not the Sajax object.
@@ -384,19 +447,33 @@ class HTTP_Sajax
 
                 self.debug('received ' + self.request_object.responseText);
 
-                var status, data;
-                status = self.request_object.responseText.charAt(0);
-                data = self.request_object.responseText.substring(2);
-                if (status == '-') {
-                    alert('Error: ' + data);
+                var responseXML = self.request_object.responseXML;
+
+                var status = responseXML.getElementsByTagName('status');
+                if (status.length) status = status[0].firstChild.nodeValue;
+                var type = responseXML.getElementsByTagName('type');
+                if (type.length) type = type[0].firstChild.nodeValue;
+                var value = responseXML.getElementsByTagName('value');
+                if (value.length) value = value[0].firstChild.nodeValue;
+               
+                self.debug(status + ' : ' + type + ' : ' + value);
+
+                if (status == 'error') {
+                    alert('Error: ' + value);
                 } else {
                     // the last argument should be a callback function
-                    args[args.length-1](data);
+                    args[args.length - 1](value);
                 }
             }
-
+            
             // send client request
-            this.request_object.send(post_data);
+            try {
+                this.request_object.send(post_data);
+            } catch (e) {
+                alert('Request object busy. ' +
+                    'Cound not send data to the server. ' +
+                    'Please Try again.');
+            }
 
             this.debug(func_name + ' uri = ' + this.request_uri +
                 '/post = ' + post_data);
