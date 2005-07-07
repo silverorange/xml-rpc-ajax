@@ -1,5 +1,8 @@
 - make work with objects
-- make request type settable per function
++ make request type settable per function
+  made it so the request_type is settable per object. This is the best way to
+  do it.
 - see about making some methods static
-- use SOAP XML for message passing instead of the weird string based concoction
++ use SOAP XML for message passing instead of the weird string based concoction
   from Sajax.
+  Using custom XML schema. SOAP is too much for what we need.
