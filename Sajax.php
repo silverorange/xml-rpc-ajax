@@ -251,6 +251,11 @@ class HTTP_Sajax
             $value = "The function '{$function_name}' is not callable.";
             $status = 'error';
 
+        } elseif (!function_exists($function_name)) {
+
+            $value = "The function '{$function_name}' does not exist.";
+            $status = 'error';
+
         } else {
 
             $value = call_user_func_array($function_name, $function_args);
@@ -363,8 +368,11 @@ class HTTP_Sajax
             this.debug_mode = false;
             this.request_uri = '{$this->remote_uri}';
             this.request_type = '{$this->_request_type}';
+        }
 
-            var request_object;
+        Sajax.prototype.getNewRequestObject = function()
+        {
+            var request_object = null;
 
             try {
                 request_object = new ActiveXObject('Msxml2.XMLHTTP');
@@ -382,10 +390,9 @@ class HTTP_Sajax
 
             if (!request_object) {
                 this.debug('Could not create connection object.');
-                this.request_object = null;
-            } else {
-                this.request_object = request_object;
             }
+
+            return request_object;
         }
 
         Sajax.prototype.debug = function(text)
@@ -428,15 +435,17 @@ class HTTP_Sajax
                 }
 
             }
-            
-            this.request_object.open(this.request_type, request_uri, true);
+
+            var request_object = this.getNewRequestObject();
+
+            request_object.open(this.request_type, request_uri, true);
 
             if (this.request_type == 'POST') {
                 try {
-                    this.request_object.setRequestHeader('Method',
+                    request_object.setRequestHeader('Method',
                         'POST ' + this.request_uri + ' HTTP/1.1');
 
-                    this.request_object.setRequestHeader('Content-Type',
+                    request_object.setRequestHeader('Content-Type',
                         'application/x-www-form-urlencoded');
                 } catch (e) {
                     alert('Request object busy. ' +
@@ -449,14 +458,14 @@ class HTTP_Sajax
             var self = this;
             
             // server response handler
-            this.request_object.onreadystatechange = function()
+            request_object.onreadystatechange = function()
             {
-                if (self.request_object.readyState != 4)
+                if (request_object.readyState != 4)
                     return;
 
-                self.debug('received ' + self.request_object.responseText);
+                self.debug('received ' + request_object.responseText);
 
-                var responseXML = self.request_object.responseXML;
+                var responseXML = request_object.responseXML;
 
                 var status = responseXML.getElementsByTagName('status');
                 if (status.length) status = status[0].firstChild.nodeValue;
@@ -477,7 +486,7 @@ class HTTP_Sajax
             
             // send client request
             try {
-                this.request_object.send(post_data);
+                request_object.send(post_data);
             } catch (e) {
                 alert('Request object busy. ' +
                     'Cound not send data to the server. ' +
@@ -488,6 +497,9 @@ class HTTP_Sajax
                 '/post = ' + post_data);
             
             this.debug(func_name + ' waiting for response ...');
+
+            // clean up request object
+            delete request_object;
         }
 
 
