@@ -315,11 +315,11 @@ class HTTP_Sajax
         $xml =
 
         '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' . "\n" .
-        "<response>\n" .
-        '  <status>' . $status . "</status>\n" .
-        '  <type>' . gettype($value) . "</type>\n" .
-        '  <value><![CDATA[' . $value . "]]></value>\n" .
-        "</response>\n";
+        '<response>' .
+        '<status>' . $status . '</status>' .
+        '<type>' . gettype($value) . '</type>' .
+        '<value><![CDATA[' . $value . ']]></value>' .
+        '</response>';
 
         return $xml;
     }
