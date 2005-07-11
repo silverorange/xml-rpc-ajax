@@ -214,6 +214,10 @@ class HTTP_Sajax
      *
      * After the request has been handled, this function calls exit() to ensure
      * the request is finished.
+     *
+     * @return boolean false if the magic client request variable is not
+     *                  present. If the magic request variable is present, this
+     *                  method does not return at all.
      */
     public function handleClientRequest()
     {
