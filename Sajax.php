@@ -526,8 +526,7 @@ JAVASCRIPT;
 <<<JAVASCRIPT
         Sajax.prototype.x_{$function_name} = function()
         {
-            this.callFunction('{$function_name}',
-                this.x_{$function_name}.arguments);
+            this.callFunction('{$function_name}', arguments);
         }
 
 
