@@ -76,9 +76,14 @@ class HTTP_Sajax
      * An identifier string for this Sajax object
      *
      * The identifier string is used in javascript to reference a particular
-     * object instance.
+     * object instance. A javascript object instance is created with this
+     * identifier when the displayJavascript() method is called and javascript
+     * function wrappers for PHP methods are attached to the javascript object
+     * instance.
      *
      * @var string
+     *
+     * @see HTTP_Sajax::displayJavascript()
      */
     public $id = '';
 
@@ -296,7 +301,7 @@ class HTTP_Sajax
      * 4. value
      *
      * This is the value returned by the function or method. The value is
-     * encapsulated in a CDATA section so that XHTML string may be safely
+     * encapsulated in a CDATA section so that an XHTML string may be safely
      * returned by functions and methods.
      *
      * @param mixed $value the value of the function or method call.
@@ -347,11 +352,11 @@ class HTTP_Sajax
     // {{{ private function _getObjectJavascript()
 
     /**
-     * Gets the javascript for a Sajax javascript object
+     * Gets the javascript idefining the Sajax javascript object
      *
      * The Sajax javascript object has everthing required to make asynchronous
-     * XML HTTP requests object in various browsers and has a method to handle
-     * the XML result returned by the PHP server.
+     * XML HTTP requests in various browsers and has a method to handle the XML
+     * result returned by the PHP server.
      *
      * The Sajax object is also able to display debug information to the client
      * if debug mode is enabled.
