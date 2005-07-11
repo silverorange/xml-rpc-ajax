@@ -49,7 +49,7 @@ define('HTTP_SAJAX_TYPE_POST', 'POST');
  * @author    Michael Gauthier <mike@silverorange.com>
  * @copyright 2005 ModernMethod Inc. and silverorange Inc.
  * @license   http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
- * @link      http://pear.php.net/package/PackageName
+ * @link      http://pear.php.net/package/HTTP_Sajax
  */
 class HTTP_Sajax
 {
@@ -365,7 +365,7 @@ class HTTP_Sajax
 <<<JAVASCRIPT
         function Sajax()
         {
-            this.debug_mode = true;
+            this.debug_mode = false;
             this.request_uri = '{$this->remote_uri}';
             this.request_type = '{$this->_request_type}';
         }
