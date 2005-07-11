@@ -352,7 +352,7 @@ class HTTP_Sajax
     // {{{ private function _getObjectJavascript()
 
     /**
-     * Gets the javascript idefining the Sajax javascript object
+     * Gets the javascript defining the Sajax javascript object
      *
      * The Sajax javascript object has everthing required to make asynchronous
      * XML HTTP requests in various browsers and has a method to handle the XML
