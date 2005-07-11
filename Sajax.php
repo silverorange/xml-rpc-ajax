@@ -160,9 +160,9 @@ class HTTP_Sajax
     public function setRequestType($request_type)
     {
         $valid_types = array(HTTP_SAJAX_TYPE_GET, HTTP_SAJAX_TYPE_POST);
-        
+
         $request_type = strtoupper($request_type);
-        
+
         if (in_array($request_type, $valid_types)) {
             $this->_request_type = $request_type;
             return true;
@@ -233,7 +233,7 @@ class HTTP_Sajax
             }
 
             break;
-            
+
         case HTTP_SAJAX_TYPE_POST:
 
             if (isset($_POST['rs'])) {
@@ -262,9 +262,9 @@ class HTTP_Sajax
             $status = 'normal';
 
         }
-        
+
         echo $this->_getResponseXML($value, $status);
-        
+
         // end client request
         exit;
     }
@@ -308,7 +308,7 @@ class HTTP_Sajax
     private function _getResponseXML($value, $status)
     {
         $xml =
-        
+
         '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' . "\n" .
         "<response>\n" .
         '  <status>' . $status . "</status>\n" .
@@ -410,7 +410,7 @@ class HTTP_Sajax
 
             // build client request
             if (this.request_type == 'GET') {
-        
+
                 if (request_uri.indexOf('?') == -1) {
                     request_uri = request_uri + '?rs=' + encodeURI(func_name);
                 } else {
@@ -428,7 +428,7 @@ class HTTP_Sajax
                 post_data = null;
 
             } else {
-        
+
                 post_data = 'rs=' + encodeURI(func_name);
                 for (var i = 0; i < args.length - 1; i++) {
                     post_data = post_data + '&rsargs[]=' + encodeURI(args[i]);
@@ -456,7 +456,7 @@ class HTTP_Sajax
 
             // inside the anonymous function 'this' is not the Sajax object.
             var self = this;
-            
+
             // server response handler
             request_object.onreadystatechange = function()
             {
@@ -506,7 +506,7 @@ class HTTP_Sajax
 
             this.debug(func_name + ' uri = ' + this.request_uri +
                 '/post = ' + post_data);
-            
+
             this.debug(func_name + ' waiting for response ...');
 
             // clean up request object
