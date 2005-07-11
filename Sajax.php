@@ -365,7 +365,7 @@ class HTTP_Sajax
 <<<JAVASCRIPT
         function Sajax()
         {
-            this.debug_mode = false;
+            this.debug_mode = true;
             this.request_uri = '{$this->remote_uri}';
             this.request_type = '{$this->_request_type}';
         }
@@ -466,24 +466,35 @@ class HTTP_Sajax
                 self.debug('received ' + request_object.responseText);
 
                 var responseXML = request_object.responseXML;
+                var childNodes = responseXML.documentElement.childNodes;
 
-                var status = responseXML.getElementsByTagName('status');
-                if (status.length) status = status[0].firstChild.nodeValue;
-                var type = responseXML.getElementsByTagName('type');
-                if (type.length) type = type[0].firstChild.nodeValue;
-                var value = responseXML.getElementsByTagName('value');
-                if (value.length) value = value[0].firstChild.nodeValue;
-               
+                var status, type, value;
+
+                // extract data from XML document
+                for (var i = 0; i < childNodes.length; i++) {
+                    switch (childNodes[i].tagName) {
+                    case 'status':
+                        status = childNodes[i].firstChild.nodeValue;
+                        break;
+                    case 'type':
+                        type = childNodes[i].firstChild.nodeValue;
+                        break;
+                    case 'value':
+                        value = childNodes[i].firstChild.nodeValue;
+                        break;
+                    }
+                }
+
                 self.debug(status + ' : ' + type + ' : ' + value);
 
                 if (status == 'error') {
                     alert('Error: ' + value);
-                } else {
-                    // the last argument should be a callback function
+                // the last argument should be a callback function
+                } else if (typeof args[args.length - 1] == 'function') {
                     args[args.length - 1](value);
                 }
             }
-            
+
             // send client request
             try {
                 request_object.send(post_data);
