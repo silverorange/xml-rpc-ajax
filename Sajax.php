@@ -194,7 +194,7 @@ class HTTP_Sajax
         }
 
         // create javascript object
-        echo "\tvar {$this->id} = new Sajax();\n\n";
+        echo "    var {$this->id} = new Sajax();\n\n";
 
         foreach ($this->_export_list as $function_name) {
             echo $this->_getFunctionStubJavascript($function_name);
