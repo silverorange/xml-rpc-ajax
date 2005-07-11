@@ -185,15 +185,15 @@ class HTTP_Sajax
 
         if ($shown === false) {
             echo $this->_getObjectJavascript();
-            foreach ($this->_export_list as $function_name) {
-                echo $this->_getFunctionStubJavascript($function_name);
-            }
-
             $shown = true;
         }
 
         // create javascript object
         echo "\tvar {$this->id} = new Sajax();\n\n";
+
+        foreach ($this->_export_list as $function_name) {
+            echo $this->_getFunctionStubJavascript($function_name);
+        }
     }
 
     // }}}
@@ -524,7 +524,7 @@ JAVASCRIPT;
         $javascript =
 
 <<<JAVASCRIPT
-        Sajax.prototype.x_{$function_name} = function()
+        {$this->id}.x_{$function_name} = function()
         {
             this.callFunction('{$function_name}', arguments);
         }
