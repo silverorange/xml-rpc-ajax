@@ -441,17 +441,11 @@ class HTTP_Sajax
             request_object.open(this.request_type, request_uri, true);
 
             if (this.request_type == 'POST') {
-                try {
-                    request_object.setRequestHeader('Method',
-                        'POST ' + this.request_uri + ' HTTP/1.1');
+                request_object.setRequestHeader('Method',
+                    'POST ' + this.request_uri + ' HTTP/1.1');
 
-                    request_object.setRequestHeader('Content-Type',
-                        'application/x-www-form-urlencoded');
-                } catch (e) {
-                    alert('Request object busy. ' +
-                        'Cound not send data to the server. ' +
-                        'Please Try again.');
-                }
+                request_object.setRequestHeader('Content-Type',
+                    'application/x-www-form-urlencoded');
             }
 
             // inside the anonymous function 'this' is not the Sajax object.
@@ -496,13 +490,7 @@ class HTTP_Sajax
             }
 
             // send client request
-            try {
-                request_object.send(post_data);
-            } catch (e) {
-                alert('Request object busy. ' +
-                    'Cound not send data to the server. ' +
-                    'Please Try again.');
-            }
+            request_object.send(post_data);
 
             this.debug(func_name + ' uri = ' + this.request_uri +
                 '/post = ' + post_data);
