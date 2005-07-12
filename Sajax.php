@@ -97,13 +97,6 @@ class HTTP_Sajax
      */
     private $_export_list = array();
 
-    /**
-     * The type of HTTP request to use for server calls
-     *
-     * @var string
-     */
-    private $_request_type = '';
-
     // }}}
     // {{{ public function __construct()
     
@@ -112,19 +105,10 @@ class HTTP_Sajax
      *
      * @param string $id an identifier for this Sajax object that is used in
      *                    client-side javascript.
-     *
-     * @param string $request_type the type of HTTP request to use for server
-     *                              calls. If an invalid type is specified, the
-     *                              default of {@link HTTP_SAJAX_TYPE_GET} is
-     *                              used.
      */
-    public function __construct($id, $request_type = HTTP_SAJAX_TYPE_GET)
+    public function __construct($id)
     {
         $this->id = $id;
-
-        if (!$this->setRequestType($request_type)) {
-            $this->_request_type = HTTP_SAJAX_TYPE_GET;
-        }
 
         $this->remote_uri = $_SERVER['REQUEST_URI'];
     }
@@ -146,34 +130,6 @@ class HTTP_Sajax
     public function exportPHPFunction($function_name)
     {
         $this->_export_list[] = $function_name;
-    }
-
-    // }}}
-    // {{{ public function setRequestType()
-
-    /**
-     * Set the request type of this AJAX object
-     *
-     * TODO: This might be better on a per function level
-     *
-     * @param string $request_type the new request type to use.
-     *
-     * @return boolean true if the change was successful or false if the change
-     *                  was unsuccessful. Changes are unsuccessful if the type
-     *                  is not valid.
-     */
-    public function setRequestType($request_type)
-    {
-        $valid_types = array(HTTP_SAJAX_TYPE_GET, HTTP_SAJAX_TYPE_POST);
-
-        $request_type = strtoupper($request_type);
-
-        if (in_array($request_type, $valid_types)) {
-            $this->_request_type = $request_type;
-            return true;
-        }
-
-        return false;
     }
 
     // }}}
@@ -222,7 +178,7 @@ class HTTP_Sajax
     public function handleClientRequest()
     {
         // look for magic client request variables to get request type
-        if (!isset($_GET['rs']) && !isset($_POST['rs'])) {
+        if (!isset($_POST['rs'])) {
             return false;
         }
 
@@ -231,28 +187,11 @@ class HTTP_Sajax
         $function_name = '';
         $function_args = array();
 
-        switch ($this->_request_type) {
-        case HTTP_SAJAX_TYPE_GET:
-
-            if (isset($_GET['rs'])) {
-                $function_name = $_GET['rs'];
-            }
-            if (isset($_GET['rsargs'])) {
-                $function_args = $_GET['rsargs'];
-            }
-
-            break;
-
-        case HTTP_SAJAX_TYPE_POST:
-
-            if (isset($_POST['rs'])) {
-                $function_name = $_POST['rs'];
-            }
-            if (isset($_POST['rsargs'])) {
-                $function_args = $_POST['rsargs'];
-            }
-
-            break;
+        if (isset($_POST['rs'])) {
+            $function_name = $_POST['rs'];
+        }
+        if (isset($_POST['rsargs'])) {
+            $function_args = $_POST['rsargs'];
         }
 
         if (!in_array($function_name, $this->_export_list)) {
@@ -376,7 +315,6 @@ class HTTP_Sajax
         {
             this.debug_mode = false;
             this.request_uri = '{$this->remote_uri}';
-            this.request_type = '{$this->_request_type}';
         }
 
         Sajax.prototype.getNewRequestObject = function()
@@ -418,44 +356,20 @@ class HTTP_Sajax
             request_uri = this.request_uri;
 
             // build client request
-            if (this.request_type == 'GET') {
-
-                if (request_uri.indexOf('?') == -1) {
-                    request_uri = request_uri + '?rs=' + encodeURI(func_name);
-                } else {
-                    request_uri = request_uri + '&rs=' + encodeURI(func_name);
-                }
-
-                for (var i = 0; i < args.length - 1; i++) {
-                    request_uri = request_uri + '&rsargs[]=' +
-                        encodeURI(args[i]);
-                }
-
-                request_uri = request_uri + '&rsrnd=' +
-                    new Date().getTime();
-
-                post_data = null;
-
-            } else {
-
-                post_data = 'rs=' + encodeURI(func_name);
-                for (var i = 0; i < args.length - 1; i++) {
-                    post_data = post_data + '&rsargs[]=' + encodeURI(args[i]);
-                }
-
+            post_data = 'rs=' + encodeURI(func_name);
+            for (var i = 0; i < args.length - 1; i++) {
+                post_data = post_data + '&rsargs[]=' + encodeURI(args[i]);
             }
 
             var request_object = this.getNewRequestObject();
 
-            request_object.open(this.request_type, request_uri, true);
+            request_object.open('POST', request_uri, true);
 
-            if (this.request_type == 'POST') {
-                request_object.setRequestHeader('Method',
-                    'POST ' + this.request_uri + ' HTTP/1.1');
+            request_object.setRequestHeader('Method',
+                'POST ' + this.request_uri + ' HTTP/1.1');
 
-                request_object.setRequestHeader('Content-Type',
-                    'application/x-www-form-urlencoded');
-            }
+            request_object.setRequestHeader('Content-Type',
+                'application/x-www-form-urlencoded');
 
             // inside the anonymous function 'this' is not the Sajax object.
             var self = this;
