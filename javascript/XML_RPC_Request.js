@@ -6,23 +6,48 @@ function XML_RPC_Request(procedure_name, arguments)
 
 XML_RPC_Request.prototype.toString = function()
 {
-	var data = '<' + '?xml version="1.0" encoding="UTF-8"?' + '>\n' + 
+	var value;
+	var xml = '<' + '?xml version="1.0" encoding="UTF-8"?' + '>\n' + 
 		'<methodCall>\n' +
 		'<methodName>' + this.procedure_name + '</methodName>\n' +
-		'<params>\n<param><value>';
+		'<params>\n';
 
-	// for now treat everything as a string
 	for (var i = 0; i < this.arguments.length - 1; i++) {
-		if (i < this.arguments.length - 2) {
-			data = data + XHTML_Escaper.escape(this.arguments[i]) +
-				'</value></param>\n<param><value>';
+		value = XML_RPC_Request.getNewValue(this.arguments[i]);
+
+		xml = xml + '<param><value>' + value.toString() + '</value></param>\n';
+	}
+
+	xml = xml + '</params>\n' +
+		'</methodCall>';
+
+	alert(xml);
+	return xml;
+}
+
+XML_RPC_Request.getNewValue = function(value)
+{
+	var new_value;
+	
+	switch (typeof value) {
+	case 'string':
+		new_value = new XML_RPC_String(value);
+		break;
+	case 'boolean':
+		new_value = new XML_RPC_Boolean(value);
+		break;
+	case 'number':
+		new_value = new XML_RPC_Double(value);
+		break;
+	case 'object':
+		if (value instanceof Array) {
+			new_value = new XML_RPC_Array(value);
+			break;
 		} else {
-			data = data + XHTML_Escaper.escape(this.arguments[i]);
+			new_value = new XML_RPC_Struct(value);
+			break;
 		}
 	}
 
-	data = data + '</value></param>\n</params>\n' +
-		'</methodCall>';
-
-	return data;
+	return new_value;
 }
