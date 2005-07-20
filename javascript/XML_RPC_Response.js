@@ -1,11 +1,21 @@
+/**
+ * A XML-RPC response from the server
+ *
+ * This object parses the response object and then makes several utility
+ * methods available based on the response data.
+ *
+ * @param DOMDocument response_xml the document object representing the XML
+ *                                  document returned by the XML-RPC server.
+ */
 function XML_RPC_Response(response_xml)
 {
 	var response_document = response_xml.documentElement;
 	this.response_document = response_document;
-	
+
+	// make sure we received an XML-RPC response
 	if (response_document.tagName != 'methodResponse') {
-		alert('Error in result, not a methodResponse. Received ' +
-		response_document.tagName);
+		throw new Error("Result is not a 'methodResponse'. Received a '" +
+			response_document.tagName + "'");
 	}
 
 	var child_nodes = response_document.childNodes;
@@ -13,6 +23,7 @@ function XML_RPC_Response(response_xml)
 
 	// get top value node from XML document
 	for (var i = 0; i < child_nodes.length; i++) {
+		// check if we got a params or a fault
 		switch (child_nodes[i].nodeName) {
 		case 'params':
 			this.has_fault = false;
@@ -48,29 +59,64 @@ function XML_RPC_Response(response_xml)
 	if (this.has_fault) {
 		this.fault_code = this.value.faultCode;
 		this.fault_message = this.value.faultString;
+	} else {
+		this.fault_code = -1;
+		this.fault_message = '';
 	}
 }
 
+/**
+ * Gets the javascript value of this response
+ *
+ * @return mixed the javascript value of this response.
+ */
 XML_RPC_Response.prototype.getValue = function()
 {
 	return this.value;
 }
 
+/**
+ * Gets the fault code of this response
+ *
+ * @return integer the fault code of this response or -1 if it there is no
+ *                  fault.
+ */
 XML_RPC_Response.prototype.getFaultCode = function()
 {
 	return this.fault_code;
 }
 
+/**
+ * Gets the fault message of this response
+ *
+ * @return strong the fault message or a blank string if there is no fault.
+ */
 XML_RPC_Response.prototype.getFaultMessage = function()
 {
 	return this.fault_message;
 }
 
+/**
+ * Returns true if this reponse has a fault
+ *
+ * @return boolean true if this response has a fault, false otherwise.
+ */
 XML_RPC_Response.prototype.hasFault = function()
 {
 	return this.has_fault;
 }
 
+/**
+ * Parses an XML value node into an appropriate javascript object
+ *
+ * DOM Level 2 Traverasl is not supported in any major browsers other than
+ * Opera at the moment so this method uses the childNodes[] property to parse
+ * nodes.
+ *
+ * @param Node node the XML value node to parse.
+ *
+ * @return mixed an appropriate javascript object representing the value.
+ */
 XML_RPC_Response.prototype.parseValueNode = function(node)
 {
 	var value = null;
@@ -92,6 +138,7 @@ XML_RPC_Response.prototype.parseValueNode = function(node)
 
 			break;
 
+		// TODO: check for date parsing support
 		case 'dateTime.iso8601':
 			value = new Date(childNodes[i].firstChild.nodeValue);
 			break;
@@ -122,17 +169,14 @@ XML_RPC_Response.prototype.parseValueNode = function(node)
 				if (struct_nodes[j].nodeName == 'member') {
 					var member_nodes = struct_nodes[j].childNodes;
 					for (k = 0; k < member_nodes.length; k++) {
-						switch (member_nodes[k].nodeName) {
-						case 'name':
+						if (member_nodes[k].nodeName == 'name') {
 							var member_name =
 								member_nodes[k].firstChild.nodeValue;
 
-							break;
-						case 'value':
+						} else if (member_nodes[k].nodeName == 'value') {
 							var member_value =
 								this.parseValueNode(member_nodes[k]);
 
-							break;
 						}
 					}
 					eval('value.' + member_name + ' = member_value;');

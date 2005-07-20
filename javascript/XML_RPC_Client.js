@@ -1,8 +1,27 @@
+/**
+ * An XML-RPC client
+ *
+ * The client uses asynchronous HTTP requests to make procedure calls on the
+ * server.
+ *
+ * @param string server the uri of the XML-RPC server.
+ */
 function XML_RPC_Client(server)
 {
 	this.request_uri = server;
 }
 
+/**
+ * Gets a new HTTP request object
+ *
+ * The HTTP request object is what is used to make XML-RPC client requests.
+ * This methods gets an appropriate request object for most modern browsers.
+ * If the browser is not supported, an exception is thrown.
+ *
+ * @return object a new HTTP request object.
+ *
+ * @throws Error
+ */
 XML_RPC_Client.prototype.getNewRequestObject = function()
 {
 	var request_object = null;
@@ -22,44 +41,60 @@ XML_RPC_Client.prototype.getNewRequestObject = function()
 	}
 
 	if (!request_object) {
-		alert('XML-RPC Client: Error could not create connection object.');
+		throw new Error('XML-RPC Client: Error could not ' +
+			'create connection object.');
 	}
 
 	return request_object;
 }
 
-XML_RPC_Client.prototype.callXmlRpcProcedure = function(procedure_name, args)
+/**
+ * Calls a remote procedure on the XML-RPC server
+ *
+ * @param string procedure_name the name of the procedure to run on the server.
+ * @param Array procedure_arguments an array of arguments to pass to the
+ *                                   procedure being called.
+ * @param function callback a function that should be called when the XML-RPC
+ *                           server responds to this client request.
+ */
+XML_RPC_Client.prototype.callXmlRpcProcedure = function(procedure_name,
+	procedure_arguments, callback)
 {
+	var xml_rpc_request = new XML_RPC_Request(procedure_name,
+		procedure_arguments);
 
-	var request_uri = this.request_uri;
-	var xml_rpc_request = new XML_RPC_Request(procedure_name, args);
-	var post_data = xml_rpc_request.toString();
+	var post_data = xml_rpc_request.toXmlRpc();
 	var request_object = this.getNewRequestObject();
 
-	request_object.open('POST', request_uri, true);
+	// open an asynchronous HTTP connection to the XML-RPC server
+	request_object.open('POST', this.request_uri, true);
 
+	// send appropriate headers
 	request_object.setRequestHeader('Method',
 		'POST ' + this.request_uri + ' HTTP/1.1');
 
-	request_object.setRequestHeader('User-Agent:', 'HTTP_Sajax');
+	request_object.setRequestHeader('User-Agent:', 'XML-RPC Javascript');
 	request_object.setRequestHeader('Content-Type', 'text/xml');
 	request_object.setRequestHeader('Content-length', post_data.length);
-
-	// inside the literal function 'this' is not the XML_RPC_Client object.
-	var self = this;
 
 	// server response handler
 	request_object.onreadystatechange = function()
 	{
-		if (request_object.readyState != 4)
-			return;
-
-		var response =
-			new XML_RPC_Response(request_object.responseXML);
-		
-		// the last argument should be a callback function
-		if (typeof args[args.length - 1] == 'function') {
-			args[args.length - 1](response.getValue());
+		// check if request is finished
+		if (request_object.readyState == 4) {
+			try {
+				var response =
+					new XML_RPC_Response(request_object.responseXML);
+			
+				// the last argument should be a callback function
+				if (typeof callback == 'function') {
+					// call the callback with the response value
+					callback(response.getValue());
+				}
+			} catch (e) {
+				// the server send back malformed XML.
+				// silently die
+			}
 		}
 	}
 

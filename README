@@ -1,0 +1,35 @@
+Simple AJAX library for PHP
+
+AJAX stands for Asynchronous Javascript and XML and is a meme coined by
+the company Adaptive Path. The techniques used by AJAX work in all modern
+browsers and involve a javascript HTTP request object and the ability to
+manipulate the document object through javascript.
+
+This package allows you to use AJAX techniques to make XML-RPC requests and
+receive XML-RPC responses from javascript without causing a full page
+request.
+
+Function calls occur as follows:
+
+1. Server renders javascript on client browser.
+2. Client javascript calls function wrapper written in javascript.
+3. Function wrapper sends an XML-RPC request via an XMLHttpRequest object
+   to an XML-RPC server.
+4. The XML-RPC server parses the request and sends the client an XML-RPC
+   response.
+5. Client javascript finishes receiving XML-RPC server response and parses
+   the response into an appropriate javascrip object.
+
+The client-side response parsing will create an appropriate variable type
+automatically. This means arrays are returned as arrays and structs are
+returned as objects.
+
+Derived from the Sajax PHP library written by ModernMethod Inc and licensed
+under a BSD style license. See "http://modernmethod.com/sajax/".
+
+There are several javascript objects being used:
+
+1. The javascript required to make asynchronous XML-RPC client requests
+   in various browsers.
+2. The javascript required to parse and XML-RPC response
+3. Utility XHTML javascript.

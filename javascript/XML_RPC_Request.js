@@ -1,10 +1,23 @@
-function XML_RPC_Request(procedure_name, arguments)
+/**
+ * An XML-RPC request object
+ *
+ * @param string procedure_name the name of the remote procedure of this
+ *                               request
+ * @param Array procedure_arguments the paramaters of the remote procedure
+ *                                   call.
+ */
+function XML_RPC_Request(procedure_name, procedure_arguments)
 {
 	this.procedure_name = procedure_name;
-	this.arguments = arguments;
+	this.procedure_arguments = procedure_arguments;
 }
 
-XML_RPC_Request.prototype.toString = function()
+/**
+ * Gets this request as a well formed XML object
+ *
+ * @return string this request as a well formed XML object.
+ */
+XML_RPC_Request.prototype.toXmlRpc = function()
 {
 	var value;
 	var xml = '<' + '?xml version="1.0" encoding="UTF-8"?' + '>\n' + 
@@ -12,19 +25,27 @@ XML_RPC_Request.prototype.toString = function()
 		'<methodName>' + this.procedure_name + '</methodName>\n' +
 		'<params>\n';
 
-	for (var i = 0; i < this.arguments.length - 1; i++) {
-		value = XML_RPC_Request.getNewValue(this.arguments[i]);
+	for (var i = 0; i < this.procedure_arguments.length; i++) {
+		value = XML_RPC_Request.getNewValue(this.procedure_arguments[i]);
 
-		xml = xml + '<param><value>' + value.toString() + '</value></param>\n';
+		xml = xml + '<param><value>' + value.toXmlRpc() + '</value></param>\n';
 	}
 
 	xml = xml + '</params>\n' +
 		'</methodCall>';
 
-	alert(xml);
 	return xml;
 }
 
+/**
+ * Gets a new XML-RPC value object based on javascript variable type
+ *
+ * This is a static method.
+ *
+ * @param mixed value the javascript value to get an XML-RPC value object for.
+ *
+ * @return mixed a new XML-RPC object representing the value.
+ */
 XML_RPC_Request.getNewValue = function(value)
 {
 	var new_value;
@@ -39,6 +60,7 @@ XML_RPC_Request.getNewValue = function(value)
 	case 'number':
 		new_value = new XML_RPC_Double(value);
 		break;
+	// both array and objects are 'object'
 	case 'object':
 		if (value instanceof Array) {
 			new_value = new XML_RPC_Array(value);
