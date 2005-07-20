@@ -3,13 +3,13 @@
 	<head>
 		<title>Multiplier</title>
 
-		<script src="../www/javascript/XML_RPC_Types.js" type="text/javascript"></script>
-		<script src="../www/javascript/XML_RPC_Request.js" type="text/javascript"></script>
-		<script src="../www/javascript/XML_RPC_Response.js" type="text/javascript"></script>
-		<script src="../www/javascript/XML_RPC_Client.js" type="text/javascript"></script>
-		<script src="../www/javascript/XHTML_Escaper.js" type="text/javascript"></script>
+		<script src="/work/mike/work-gauthierm/www/javascript/XML_RPC_Types.js" type="text/javascript"></script>
+		<script src="/work/mike/work-gauthierm/www/javascript/XML_RPC_Request.js" type="text/javascript"></script>
+		<script src="/work/mike/work-gauthierm/www/javascript/XML_RPC_Response.js" type="text/javascript"></script>
+		<script src="/work/mike/work-gauthierm/www/javascript/XML_RPC_Client.js" type="text/javascript"></script>
+		<script src="/work/mike/work-gauthierm/www/javascript/XHTML_Escaper.js" type="text/javascript"></script>
 		<script>
-		var client = new XML_RPC_Client('/work/mike/work-gauthierm/server.php');
+		var client = new XML_RPC_Client('/work/mike/work-gauthierm/tests/server.php');
 
 		function do_multiply_cb(z)
 		{
