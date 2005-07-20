@@ -21,7 +21,7 @@
 		<notes>Initial import to subversion
 		</notes>
 		<deps>
-			<dep type="package" rel="ge" version="0.0.1" optional="no">XML_RPC2</dep>
+			<dep type="pkg" rel="ge" version="0.0.1" optional="no">XML_RPC2</dep>
 		</deps>
 		<filelist>
 			<file role="data" baseinstalldir="XML" name="www/javascript/XML_RPC_Client.js" />
