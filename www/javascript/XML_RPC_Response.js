@@ -6,6 +6,8 @@
  *
  * @param DOMDocument response_xml the document object representing the XML
  *                                  document returned by the XML-RPC server.
+ *
+ * @throws XML_RPC_Exception
  */
 function XML_RPC_Response(response_xml)
 {
@@ -14,7 +16,8 @@ function XML_RPC_Response(response_xml)
 
 	// make sure we received an XML-RPC response
 	if (response_document.tagName != 'methodResponse') {
-		throw new Error("Result is not a 'methodResponse'. Received a '" +
+		throw new XML_RPC_Exception(0, "XML-RPC Response: Result is not a " +
+			"'methodResponse'. Received a '" +
 			response_document.tagName + "'");
 	}
 

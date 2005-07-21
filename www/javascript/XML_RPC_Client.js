@@ -20,7 +20,7 @@ function XML_RPC_Client(server)
  *
  * @return object a new HTTP request object.
  *
- * @throws Error
+ * @throws XML_RPC_Exception
  */
 XML_RPC_Client.prototype.getNewRequestObject = function()
 {
@@ -41,7 +41,7 @@ XML_RPC_Client.prototype.getNewRequestObject = function()
 	}
 
 	if (!request_object) {
-		throw new Error('XML-RPC Client: Error could not ' +
+		throw new XML_RPC_Exception(0, 'XML-RPC Client: Could not ' +
 			'create connection object.');
 	}
 
