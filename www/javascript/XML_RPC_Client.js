@@ -41,7 +41,7 @@ XML_RPC_Client.prototype.getNewRequestObject = function()
 	}
 
 	if (!request_object) {
-		throw new XML_RPC_Exception(0, 'XML-RPC Client: Could not ' +
+		throw new XML_RPC_Exception(0, 'XML_RPC_Client: Could not ' +
 			'create connection object.');
 	}
 
@@ -63,7 +63,7 @@ XML_RPC_Client.prototype.callXmlRpcProcedure = function(procedure_name,
 	var xml_rpc_request = new XML_RPC_Request(procedure_name,
 		procedure_arguments);
 
-	var post_data = xml_rpc_request.toXmlRpc();
+	var post_data = xml_rpc_request.marshall();
 	var request_object = this.getNewRequestObject();
 
 	// open an asynchronous HTTP connection to the XML-RPC server

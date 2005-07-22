@@ -16,13 +16,13 @@ function XML_RPC_Response(response_xml)
 
 	// make sure we received an XML-RPC response
 	if (response_document.tagName != 'methodResponse') {
-		throw new XML_RPC_Exception(0, "XML-RPC Response: Result is not a " +
+		throw new XML_RPC_Exception(0, "XML_RPC_Response: Result is not a " +
 			"'methodResponse'. Received a '" +
 			response_document.tagName + "'");
 	}
 
 	var child_nodes = response_document.childNodes;
-	var value_node;
+	var value_node = null;
 
 	// get top value node from XML document
 	for (var i = 0; i < child_nodes.length; i++) {
@@ -57,7 +57,12 @@ function XML_RPC_Response(response_xml)
 		}
 	}
 
-	this.value = this.parseValueNode(value_node);
+	if (value_node == null) {
+		throw new XML_RPC_Exception(0, 'XML_RPC_Response: Malformed ' + 
+			'response. No value node is present in the response.');
+	}
+
+	this.value = XML_RPC_Response.parseValueNode(value_node);
 
 	if (this.has_fault) {
 		this.fault_code = this.value.faultCode;
@@ -120,83 +125,63 @@ XML_RPC_Response.prototype.hasFault = function()
  *
  * @return mixed an appropriate javascript object representing the value.
  */
-XML_RPC_Response.prototype.parseValueNode = function(node)
+XML_RPC_Response.parseValueNode = function(value_node)
 {
 	var value = null;
+	var child_nodes = value_node.childNodes;
 
-	var child_nodes = node.childNodes;
-	for (var i = 0; i < child_nodes.length; i++) {
-		switch (child_nodes[i].nodeName) {
-		case 'int':
-		case 'i4':
-		case 'boolean':
-		case 'double':
-		case 'base64':
-			value = child_nodes[i].firstChild.nodeValue;
-			break;
-
-		case 'string':
-			value =
-				XHTML_Escaper.unescape(child_nodes[i].firstChild.nodeValue);
-
-			break;
-
-		// TODO: check for date parsing support
-		case 'dateTime.iso8601':
-			value = new Date(childNodes[i].firstChild.nodeValue);
-			break;
-
-		case 'array':
-			value = new Array();
-			var array_nodes = child_nodes[i].childNodes;
-			for (j = 0; j < array_nodes.length; j++) {
-				if (array_nodes[j].nodeName == 'data') {
-					var data_nodes = array_nodes[j].childNodes;
-					for (var k = 0; k < data_nodes.length; k++) {
-						if (data_nodes[k].nodeName == 'value') {
-							var data_value =
-								this.parseValueNode(data_nodes[k]);
-
-							value.push(data_value);
-						}
-					}
-					break;
-				}
-			}
-			break;
-
-		case 'struct':
-			value = new Object();
-			var struct_nodes = child_nodes[i].childNodes;
-			for (j = 0; j < struct_nodes.length; j++) {
-				if (struct_nodes[j].nodeName == 'member') {
-					var member_nodes = struct_nodes[j].childNodes;
-					for (k = 0; k < member_nodes.length; k++) {
-						if (member_nodes[k].nodeName == 'name') {
-							var member_name =
-								member_nodes[k].firstChild.nodeValue;
-
-						} else if (member_nodes[k].nodeName == 'value') {
-							var member_value =
-								this.parseValueNode(member_nodes[k]);
-
-						}
-					}
-					eval('value.' + member_name + ' = member_value;');
-				}
-			}
-			break;
-
-		}
-	}
-
-	// assume string
-	if (value == null) {
+	if (child_nodes.length == 0) {
+		// blank string is the only thing this can be
+		value = '';
+	} else {
 		for (var i = 0; i < child_nodes.length; i++) {
-			if (child_nodes[i].nodeName == '#text') {
-				value = child_nodes[i].nodeValue;
+			switch (child_nodes[i].nodeName) {
+			case 'int':
+			case 'i4':
+			case 'double':
+				// javascript makes no destinction between int and double so
+				// treat all numbers as double.
+				value = XML_RPC_Double.unmarshall(child_nodes[i]);
 				break;
+				
+			case 'base64':
+				// TODO: not implemented yet.
+				value = null;
+				break;
+
+			case 'boolean':
+				value = XML_RPC_Boolean.unmarshall(child_nodes[i]);
+				break;
+
+			case 'string':
+				value = XML_RPC_String.unmarshall(child_nodes[i]);
+				break;
+
+			case 'dateTime.iso8601':
+				value = XML_RPC_Date.unmarshall(child_nodes[i]);
+				break;
+
+			case 'array':
+				value = XML_RPC_Array.unmarshall(child_nodes[i]);
+				break;
+
+			case 'struct':
+				value = XML_RPC_Struct.unmarshall(child_nodes[i]);
+				break;
+
+			case '#text':
+				// ignore until later
+				break;
+
+			default:
+				throw new XML_RPC_Exception(0, 'XML_RPC_Response: unknown ' +
+					'XML-RPC data type encountered.');
 			}
+		}
+
+		// assume string
+		if (value == null) {
+			value = XML_RPC_String.unmarshall(value_node);
 		}
 	}
 

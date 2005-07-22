@@ -17,7 +17,7 @@ function XML_RPC_Request(procedure_name, procedure_arguments)
  *
  * @return string this request as a well formed XML object.
  */
-XML_RPC_Request.prototype.toXmlRpc = function()
+XML_RPC_Request.prototype.marshall = function()
 {
 	var value;
 	var xml = '<' + '?xml version="1.0" encoding="UTF-8"?' + '>\n' + 
@@ -28,7 +28,7 @@ XML_RPC_Request.prototype.toXmlRpc = function()
 	for (var i = 0; i < this.procedure_arguments.length; i++) {
 		value = XML_RPC_Request.getNewValue(this.procedure_arguments[i]);
 
-		xml = xml + '<param><value>' + value.toXmlRpc() + '</value></param>\n';
+		xml = xml + '<param><value>' + value.marshall() + '</value></param>\n';
 	}
 
 	xml = xml + '</params>\n' +

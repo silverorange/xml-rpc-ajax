@@ -1,3 +1,24 @@
+function XML_RPC_Date(value)
+{
+	this.value = value;
+}
+
+XML_RPC_Date.prototype.marshall = function()
+{
+	var xml = '<dateTime.iso8601>';
+	// TODO: put iso8601 formatted date here.
+	xml = xml + '</dateTime.iso8601>';
+
+	return xml;
+}
+
+XML_RPC_Date.unmarshall = function(date_node)
+{
+	var date_value = new Date();
+	// TODO: parse iso8601 date here
+	return date_value;
+}
+
 /**
  * An array XML-RPC type
  *
@@ -13,7 +34,7 @@ function XML_RPC_Array(value)
  *
  * @return string this XML-RPC type as a well formed XML fragment.
  */
-XML_RPC_Array.prototype.toXmlRpc = function()
+XML_RPC_Array.prototype.marshall = function()
 {
 	var value;
 	var xml = '\n<array><data>\n';
@@ -21,7 +42,7 @@ XML_RPC_Array.prototype.toXmlRpc = function()
 	for (var i = 0; i < this.value.length; i++) {
 		value = XML_RPC_Request.getNewValue(this.value[i]);
 		
-		xml = xml + '<value>' + value.toXmlRpc() + '</value>\n';
+		xml = xml + '<value>' + value.marshall() + '</value>\n';
 	}
 
 	xml = xml + '</data></array>\n';
@@ -29,15 +50,33 @@ XML_RPC_Array.prototype.toXmlRpc = function()
 	return xml;
 }
 
+XML_RPC_Array.unmarshall = function(array_node)
+{
+	var array_value = new Array();
+	var array_subnodes = array_node.childNodes;
+	for (var i = 0; i < array_subnodes.length; i++) {
+		if (array_subnodes[i].nodeName == 'data') {
+			var data_subnodes = array_subnodes[i].childNodes;
+			for (var j = 0; j < data_subnodes.length; j++) {
+				if (data_subnodes[j].nodeName == 'value') {
+					var data_value =
+						XML_RPC_Response.parseValueNode(data_subnodes[j]);
+
+					array_value.push(data_value);
+				}
+			}
+			break;
+		}
+	}
+
+	return array_value;
+}
+
 /**
  * A string XML-RPC type
  *
  * @param string value the string this XML-RPC type represents.
  */
-function XML_RPC_Array(value)
-{
-	this.value = value;
-}
 function XML_RPC_String(value)
 {
 	this.value = value;
@@ -48,12 +87,20 @@ function XML_RPC_String(value)
  *
  * @return string this XML-RPC type as a well formed XML fragment.
  */
-XML_RPC_String.prototype.toXmlRpc = function()
+XML_RPC_String.prototype.marshall = function()
 {
-	var xml = '<string>' + XHTML_Escaper.escape(this.value) +
-		'</string>';
+	var value = this.value.replace('&', '&amp;').replace('<', '&lt;');
+	var xml = '<string>' + value + '</string>';
 
 	return xml;
+}
+
+XML_RPC_String.unmarshall = function(string_node)
+{
+	var string_value = string_node.firstChild.nodeValue;
+	string_value = string_value.replace('&lt;', '<').replace('&amp;', '&');
+
+	return string_value;
 }
 
 /**
@@ -69,7 +116,9 @@ function XML_RPC_Double(value)
 	case Number.NaN:
 	case Number.POSITIVE_INFINITY:
 	case Number.NEGATIVE_INFINITY:
-		this.value = 0;
+		throw new XML_RPC_Exception(0, 'XML_RPC_Double: Cannot convert NaN ' +
+			'or Infinity to corresponding XML-RPC data types.');
+
 		break;
 	default:
 		this.value = value;
@@ -82,11 +131,19 @@ function XML_RPC_Double(value)
  *
  * @return string this XML-RPC type as a well formed XML fragment.
  */
-XML_RPC_Double.prototype.toXmlRpc = function()
+XML_RPC_Double.prototype.marshall = function()
 {
 	var xml = '<double>' + this.value + '</double>';
 
 	return xml;
+}
+
+
+XML_RPC_Double.unmarshall = function(double_node)
+{
+	var value = double_node.firstChild.nodeValue;
+	var double_value = parseDouble(value);
+	return double_value;
 }
 
 /**
@@ -104,11 +161,18 @@ function XML_RPC_Boolean(value)
  *
  * @return string this XML-RPC type as a well formed XML fragment.
  */
-XML_RPC_Boolean.prototype.toXmlRpc = function()
+XML_RPC_Boolean.prototype.marshall = function()
 {
 	var xml = '<boolean>' + this.value + '</boolean>';
 
 	return xml;
+}
+
+XML_RPC_Boolean.unmarshall = function(boolean_node)
+{
+	var value = boolean_node.firstChild.nodeValue;
+	var boolean_value = (value) ? true : false;
+	return boolean_value;
 }
 
 /**
@@ -126,7 +190,7 @@ function XML_RPC_Struct(value)
  *
  * @return string this XML-RPC type as a well formed XML fragment.
  */
-XML_RPC_Struct.prototype.toXmlRpc = function()
+XML_RPC_Struct.prototype.marshall = function()
 {
 	var value;
 	var xml = '<struct>\n';
@@ -134,9 +198,33 @@ XML_RPC_Struct.prototype.toXmlRpc = function()
 		value = XML_RPC_Request.getNewValue(this.value[member]);
 
 		xml = xml + '<member>\n<name>' + member + '</name>\n' +
-			'<value>' + value.toXmlRpc() + '</value>\n</member>\n';
+			'<value>' + value.marshall() + '</value>\n</member>\n';
 	}
 	xml = xml + '</struct>\n';
 
 	return xml;
+}
+
+XML_RPC_Struct.unmarshall = function(struct_node)
+{
+	var struct_value = new Object();
+	var struct_subnodes = struct_node.childNodes;
+	for (var i = 0; i < struct_subnodes.length; i++) {
+		if (struct_subnodes[i].nodeName == 'member') {
+			var member_subnodes = struct_subnodes[i].childNodes;
+			for (var j = 0; j < member_subnodes.length; j++) {
+				if (member_subnodes[j].nodeName == 'name') {
+					var member_name = member_nodes[j].firstChild.nodeValue;
+				} else if (member_subnodes[j].nodeName == 'value') {
+					var member_value =
+						XML_RPC_Response.parseValueNode(member_subnodes[j]);
+				}
+			}
+			struct_value[member_name] = member_value;
+// TODO: test this object property access method.
+//			eval('value.' + member_name + ' = member_value;');
+		}
+	}
+
+	return struct_value;
 }
