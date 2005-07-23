@@ -3,11 +3,26 @@ function XML_RPC_Date(value)
 	this.value = value;
 }
 
+/**
+ *
+ * YYYYMMDDTHH:MM:SS as per the XML-RPC specification
+ */
 XML_RPC_Date.prototype.marshall = function()
 {
-	var xml = '<dateTime.iso8601>';
-	// TODO: put iso8601 formatted date here.
-	xml = xml + '</dateTime.iso8601>';
+	function padZeros(number)
+	{
+		return (number < 10) ? '0' + number : number;
+	}
+	
+	var xml = '<dateTime.iso8601>' +
+		this.value.getFullYear() +
+		padZeros(this.value.getMonth() + 1) +
+		padZeros(this.value.getDate()) +
+		'T' +
+		padZeros(this.value.getHours()) + ':' +
+		padZeros(this.value.getMinutes()) + ':' +
+		padZeros(this.value.getSeconds()) +
+		'</dateTime.iso8601>';
 
 	return xml;
 }
