@@ -5,7 +5,7 @@ function XML_RPC_Date(value)
 
 /**
  *
- * YYYYMMDDTHH:MM:SS as per the XML-RPC specification
+ * YYYYMMDDTHH:MM:SS+HHMM as per the XML-RPC specification
  */
 XML_RPC_Date.prototype.marshall = function()
 {
@@ -13,7 +13,11 @@ XML_RPC_Date.prototype.marshall = function()
 	{
 		return (number < 10) ? '0' + number : number;
 	}
-	
+	var timezoneOffsetSign = (this.value.getTimezoneOffset() < 0) ? '-' : '+';
+	var timezoneOffsetHours = Math.floor(this.value.getTimezoneOffset() / 60)
+	var timezoneOffsetMinutes = this.value.getTimezoneOffset() -
+		(timezoneOffsetHours * 60);
+		
 	var xml = '<dateTime.iso8601>' +
 		this.value.getFullYear() +
 		padZeros(this.value.getMonth() + 1) +
@@ -22,6 +26,9 @@ XML_RPC_Date.prototype.marshall = function()
 		padZeros(this.value.getHours()) + ':' +
 		padZeros(this.value.getMinutes()) + ':' +
 		padZeros(this.value.getSeconds()) +
+		timezoneOffsetSign + 
+		padZeros(timezoneOffsetHours) +
+		padZeros(timezoneOffsetMinutes) +
 		'</dateTime.iso8601>';
 
 	return xml;
@@ -236,8 +243,6 @@ XML_RPC_Struct.unmarshall = function(struct_node)
 				}
 			}
 			struct_value[member_name] = member_value;
-// TODO: test this object property access method.
-//			eval('value.' + member_name + ' = member_value;');
 		}
 	}
 

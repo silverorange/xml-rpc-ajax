@@ -64,11 +64,12 @@ XML_RPC_Request.getNewValue = function(value)
 	case 'object':
 		if (value instanceof Array) {
 			new_value = new XML_RPC_Array(value);
-			break;
+		} else if (value instanceof Date) {
+			new_value = new XML_RPC_Date(value);
 		} else {
 			new_value = new XML_RPC_Struct(value);
-			break;
 		}
+		break;
 	}
 
 	return new_value;
