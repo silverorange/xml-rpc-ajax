@@ -57,13 +57,14 @@ XML_RPC_Client.prototype.getNewRequestObject = function()
  * @param function callback a function that should be called when the XML-RPC
  *                           server responds to this client request.
  */
-XML_RPC_Client.prototype.callXmlRpcProcedure = function(procedure_name,
+XML_RPC_Client.prototype.callProcedure = function(procedure_name,
 	procedure_arguments, callback)
 {
 	var xml_rpc_request = new XML_RPC_Request(procedure_name,
 		procedure_arguments);
 
 	var post_data = xml_rpc_request.marshall();
+	alert(post_data);
 	var request_object = this.getNewRequestObject();
 
 	// open an asynchronous HTTP connection to the XML-RPC server
@@ -83,6 +84,7 @@ XML_RPC_Client.prototype.callXmlRpcProcedure = function(procedure_name,
 		// check if request is finished
 		if (request_object.readyState == 4) {
 			try {
+				alert(request_object.responseText);
 				var response =
 					new XML_RPC_Response(request_object.responseXML);
 			
