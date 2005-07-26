@@ -236,7 +236,7 @@ XML_RPC_Struct.unmarshall = function(struct_node)
 			var member_subnodes = struct_subnodes[i].childNodes;
 			for (var j = 0; j < member_subnodes.length; j++) {
 				if (member_subnodes[j].nodeName == 'name') {
-					var member_name = member_nodes[j].firstChild.nodeValue;
+					var member_name = member_subnodes[j].firstChild.nodeValue;
 				} else if (member_subnodes[j].nodeName == 'value') {
 					var member_value =
 						XML_RPC_Response.parseValueNode(member_subnodes[j]);
