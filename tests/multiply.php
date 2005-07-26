@@ -2,13 +2,11 @@
 <html>
 	<head>
 		<title>Multiplier</title>
-
 		<script src="../www/javascript/XML_RPC_Types.js" type="text/javascript"></script>
 		<script src="../www/javascript/XML_RPC_Exception.js" type="text/javascript"></script>
 		<script src="../www/javascript/XML_RPC_Request.js" type="text/javascript"></script>
 		<script src="../www/javascript/XML_RPC_Response.js" type="text/javascript"></script>
 		<script src="../www/javascript/XML_RPC_Client.js" type="text/javascript"></script>
-		<script src="../www/javascript/XHTML_Escaper.js" type="text/javascript"></script>
 		<script>
 		var client = new XML_RPC_Client('server.php');
 
@@ -41,14 +39,14 @@
 			var x = document.getElementById('x').value;
 			var y = document.getElementById('y').value;
 
-			client.callXmlRpcProcedure('multiply', [x, y], do_multiply_cb);
+			client.callProcedure('multiply', [x, y], do_multiply_cb);
 		}
 
 		function do_search()
 		{
 			var country = document.getElementById('country').value;
 
-			client.callXmlRpcProcedure('search', [country], do_search_cb);
+			client.callProcedure('search', [country], do_search_cb);
 		}
 
 		function click_result(list_element)
