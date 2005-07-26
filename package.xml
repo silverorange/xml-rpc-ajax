@@ -14,11 +14,11 @@
 		</maintainer>
 	</maintainers>
 	<release>
-		<version>0.0.2</version>
+		<version>0.0.3</version>
 		<date>2005-07-26</date>
 		<license>LGPL</license>
 		<state>alpha</state>
-		<notes>Second release with a php file to easily include the javascript.
+		<notes>Fixed struct passing.
 		</notes>
 		<deps>
 			<dep type="pkg" rel="ge" version="0.0.1" optional="no">XML_RPC2</dep>
@@ -43,6 +43,14 @@
 			<license>LGPL</license>
 			<state>alpha</state>
 			<notes>Initial import to subversion
+			</notes>
+		</release>
+		<release>
+			<version>0.0.2</version>
+			<date>2005-07-26</date>
+			<license>LGPL</license>
+			<state>alpha</state>
+			<notes>Second release with a php file to easily include the javascript.
 			</notes>
 		</release>
 	</changelog>
