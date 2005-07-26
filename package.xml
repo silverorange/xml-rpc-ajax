@@ -33,6 +33,7 @@
 			<file role="test" baseinstalldir="XML" name="tests/multiply.php" />
 			<file role="test" baseinstalldir="XML" name="tests/server.php" />
 			<file role="doc" baseinstalldir="XML" name="README" />
+			<file role="php" baseinstalldir="XML" name="XMLRPCAjax.php" />
 		</filelist>
 	</release>
 	<changelog>
