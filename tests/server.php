@@ -28,6 +28,15 @@ header('Cache-Control: no-cache, must-revalidate max-age=0');
 // for HTTP/1.0
 header('Pragma: no-cache');
 
+/**
+ * A demo XML-RPC server
+ *
+ * This server serves XML-RPC requests from the xml-rpc-ajax demo.
+ *
+ * @package   xml-rpc-ajax
+ * @copyright 2005 silverorange
+ * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ */
 class MyServer
 {
 	/**
