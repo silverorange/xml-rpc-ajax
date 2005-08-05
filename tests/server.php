@@ -53,63 +53,6 @@ class MyServer
 	}
 
 	/**
-	 * Gets a semi-unique colour based on an ip address
-	 *
-	 * @param string $ip the ip address to get a colour for.
-	 *
-	 * @return string the hex colour based on the given ip address.
-	 *
-	 * @xmlrpc.hidden
-	 */
-	public static function colorify_ip($ip)
-	{
-		$parts = explode('.', $ip);
-		$color = sprintf('#%02s%02s%02s',
-				dechex($parts[1]), dechex($parts[2]), dechex($parts[3]));
-
-		return $color;
-	}
-
-	/**
-	 * Adds a line to the graffiti wall.
-	 *
-	 * @param string $message the message to add to the wall.
-	 */
-	public static function add_line($message)
-	{
-		$f = fopen('/tmp/wall.html', 'a');
-		$dt = date('Y-m-d h:i:s');
-		$message = strip_tags(stripslashes($message));
-		$remote = $_SERVER['REMOTE_ADDR'];
-
-		// generate unique-ish color for IP
-		$color = self::colorify_ip($remote);
-
-		fwrite($f, "<span style=\"color:{$color}\">{$dt}</span> " .
-			"{$message}<br />\n");
-
-		fclose($f);
-
-		// need to return something here.
-		return true;
-	}
-
-	/**
-	 * Refreshes the graffiti wall
-	 *
-	 * @return string the updated contents of the wall.
-	 */
-	public static function refresh()
-	{
-		$lines = file('/tmp/wall.html');
-
-		// return the last 25 lines
-		$contents = implode("\n", array_slice($lines, -25));
-
-		return $contents;
-	}
-
-	/**
 	 * Searches for a country based on name
 	 *
 	 * @param string $keyword the country name to look for.
