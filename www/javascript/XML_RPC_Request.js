@@ -45,6 +45,8 @@ XML_RPC_Request.prototype.marshall = function()
  * @param mixed value the javascript value to get an XML-RPC value object for.
  *
  * @return mixed a new XML-RPC object representing the value.
+ *
+ * @throws XML_RPC_Exception
  */
 XML_RPC_Request.getNewValue = function(value)
 {
@@ -70,6 +72,10 @@ XML_RPC_Request.getNewValue = function(value)
 			new_value = new XML_RPC_Struct(value);
 		}
 		break;
+	default:
+		throw new XML_RPC_Exception(0, 'XML_RPC_Request: Cannot convert a ' +
+			'value of type ' + typeof value + ' to a valid XML-RPC ' +
+			'request type.');
 	}
 
 	return new_value;
