@@ -5,10 +5,27 @@
  * server.
  *
  * @param string server the uri of the XML-RPC server.
+ *
+ * @throws XML_RPC_Exception
  */
 function XML_RPC_Client(server)
 {
-	this.request_uri = server;
+	// Opera does not automatically use the document base href when opening
+	// a request with the XMLHttpRequest object. This grabs the base href
+	// from the document.
+	if (navigator.userAgent.indexOf('Opera') != -1) {
+		var base_tags = document.getElementsByTagName('base');
+		if (base_tags.length > 0) {
+			var base_href = base_tags[0].getAttribute('href');
+		} else {
+			throw new XML_RPC_Exception(0, 'XML_RPC_Client: Could not find ' +
+				'document base href for Opera.');
+		}
+	} else {
+		var base_href = '';
+	}
+
+	this.request_uri = base_href + server;
 }
 
 /**
@@ -60,6 +77,15 @@ XML_RPC_Client.prototype.getNewRequestObject = function()
 XML_RPC_Client.prototype.callProcedure = function(procedure_name,
 	procedure_arguments, callback)
 {
+	// Check if arguments were passed as an array.
+	// The argument is not added in the constructor as most browsers reserve
+	// a single parameter constructor for specifying the length of the array.
+	if (!(procedure_arguments instanceof Array)) {
+		var arg = procedure_arguments;
+		procedure_arguments = new Array();
+		procedure_arguments.push(arg);
+	}
+
 	var xml_rpc_request = new XML_RPC_Request(procedure_name,
 		procedure_arguments);
 
