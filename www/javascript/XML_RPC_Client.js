@@ -108,18 +108,13 @@ XML_RPC_Client.prototype.callProcedure = function(procedure_name,
 	{
 		// check if request is finished
 		if (request_object.readyState == 4) {
-			try {
-				var response =
-					new XML_RPC_Response(request_object.responseXML);
-			
-				// the last argument should be a callback function
-				if (typeof callback == 'function') {
-					// call the callback with the response value
-					callback(response.getValue());
-				}
-			} catch (e) {
-				// the server send back malformed XML.
-				// silently die
+			var response =
+				new XML_RPC_Response(request_object.responseXML);
+		
+			// the last argument should be a callback function
+			if (typeof callback == 'function') {
+				// call the callback with the response value
+				callback(response.getValue());
 			}
 		}
 	}
