@@ -119,9 +119,13 @@ XML_RPC_String.prototype.marshall = function()
 
 XML_RPC_String.unmarshall = function(string_node)
 {
-	var string_value = string_node.firstChild.nodeValue;
-	string_value = string_value.replace('&lt;', '<').replace('&amp;', '&');
-
+	var string_value;
+	if (string_node.firstChild == null) {
+		string_value = '';
+	} else {
+		string_value = string_node.firstChild.nodeValue;
+		string_value = string_value.replace('&lt;', '<').replace('&amp;', '&');
+	}
 	return string_value;
 }
 
