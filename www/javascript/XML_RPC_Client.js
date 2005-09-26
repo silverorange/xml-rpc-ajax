@@ -99,9 +99,8 @@ XML_RPC_Client.prototype.callProcedure = function(procedure_name,
 	request_object.setRequestHeader('Method',
 		'POST ' + this.request_uri + ' HTTP/1.1');
 
-	request_object.setRequestHeader('User-Agent:', 'XML-RPC Javascript');
+	request_object.setRequestHeader('User-Agent', 'XML-RPC Javascript');
 	request_object.setRequestHeader('Content-Type', 'text/xml');
-	request_object.setRequestHeader('Content-length', post_data.length);
 
 	// server response handler
 	request_object.onreadystatechange = function()
