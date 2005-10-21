@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package   xml-rpc-ajax
+ * @copyright 2005 silverorange
+ * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ */
+
 require_once 'XML/RPC2/Server.php';
 
 // For testing 

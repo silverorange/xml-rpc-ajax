@@ -1,4 +1,12 @@
-<?php header('Content-type: text/html; charset=UTF-8'); ?>
+<?php
+/**
+ * @package   xml-rpc-ajax
+ * @copyright 2005 silverorange
+ * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ */
+
+header('Content-type: text/html; charset=UTF-8');
+?>
 <html>
 	<head>
 		<title>Multiplier</title>
