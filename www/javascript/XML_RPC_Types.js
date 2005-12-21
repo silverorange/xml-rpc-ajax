@@ -168,7 +168,7 @@ XML_RPC_Double.prototype.marshall = function()
 XML_RPC_Double.unmarshall = function(double_node)
 {
 	var value = double_node.firstChild.nodeValue;
-	var double_value = parseDouble(value);
+	var double_value = parseFloat(value);
 	return double_value;
 }
 
