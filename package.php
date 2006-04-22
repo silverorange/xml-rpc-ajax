@@ -54,6 +54,7 @@ $package->addMaintainer('lead', 'gauthierm', 'Mike Gauthier', 'mike@silverorange
 $package->setPhpDep('5.0.5');
 $package->setPearinstallerDep('1.4.0');
 $package->addPackageDepWithChannel('required', 'XML_RPC2', 'pear.silverorange.com', '0.0.1');
+$package->addPackageDepWithChannel('required', 'Swat', 'pear.silverorange.com', '0.0.1');
 $package->generateContents();
 
 //$package->addReplacement('package-info', 'pear-config', '@package_version@', 'version');
