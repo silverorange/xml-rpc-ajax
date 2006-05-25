@@ -29,6 +29,16 @@ function XML_RPC_Client(server)
 }
 
 /**
+ * Turns debugging on or off
+ *
+ * Defaults to off.
+ *
+ * @var boolean
+ * @static
+ */
+XML_RPC_Client.debug = false;
+
+/**
  * Gets a new HTTP request object
  *
  * The HTTP request object is what is used to make XML-RPC client requests.
@@ -107,6 +117,11 @@ XML_RPC_Client.prototype.callProcedure = function(procedure_name,
 	{
 		// check if request is finished
 		if (request_object.readyState == 4) {
+
+			// debug
+			if (XML_RPC_Client.debug)
+				alert(request_object.response_text);
+
 			var response =
 				new XML_RPC_Response(request_object.responseXML);
 		
