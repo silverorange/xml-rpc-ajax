@@ -120,7 +120,7 @@ XML_RPC_Client.prototype.callProcedure = function(procedure_name,
 
 			// debug
 			if (XML_RPC_Client.debug)
-				alert(request_object.response_text);
+				alert(request_object.responseText);
 
 			var response =
 				new XML_RPC_Response(request_object.responseXML);
