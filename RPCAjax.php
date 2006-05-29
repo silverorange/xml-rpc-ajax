@@ -1,5 +1,6 @@
 <?php
 
+require_once 'Swat/SwatHtmlHeadEntrySet.php';
 require_once 'Swat/SwatJavaScriptHtmlHeadEntry.php';
 
 /**
@@ -25,32 +26,27 @@ class XML_RPCAjax
 	/**
 	 * Gets the HTML head entries required by this AJAX XML-RPC client
 	 *
-	 * @return array a reference to an array of SwatHtmlHeadEntry objects
-	 *                containing the required JavaScript files for this AJAX
-	 *                XML-RPC client.
+	 * @return SwatHtmlHeadEntrySet a set of SwatHtmlHeadEntry objects
+	 *                               containing the required JavaScript files
+	 *                               for an AJAX XML-RPC client.
 	 */
 	public static function &getHtmlHeadEntries()
 	{
-		$entries = array();
-		$entries['xml-rpc-ajax/javascript/XML_RPC_Types.js'] =
-			new SwatJavaScriptHtmlHeadEntry(
-				'xml-rpc-ajax/javascript/XML_RPC_Types.js');
+		$entries = new SwatHtmlHeadEntrySet();
+		$entries->addEntry(new SwatJavaScriptHtmlHeadEntry(
+				'xml-rpc-ajax/javascript/XML_RPC_Types.js'));
 
-		$entries['xml-rpc-ajax/javascript/XML_RPC_Exception.js'] =
-			new SwatJavaScriptHtmlHeadEntry(
-				'xml-rpc-ajax/javascript/XML_RPC_Exception.js');
+		$entries->addEntry(new SwatJavaScriptHtmlHeadEntry(
+				'xml-rpc-ajax/javascript/XML_RPC_Exception.js'));
 
-		$entries['xml-rpc-ajax/javascript/XML_RPC_Request.js'] =
-			new SwatJavaScriptHtmlHeadEntry(
-				'xml-rpc-ajax/javascript/XML_RPC_Request.js');
+		$entries->addEntry(new SwatJavaScriptHtmlHeadEntry(
+				'xml-rpc-ajax/javascript/XML_RPC_Request.js'));
 
-		$entries['xml-rpc-ajax/javascript/XML_RPC_Response.js'] =
-			new SwatJavaScriptHtmlHeadEntry(
-				'xml-rpc-ajax/javascript/XML_RPC_Response.js');
+		$entries->addEntry(new SwatJavaScriptHtmlHeadEntry(
+				'xml-rpc-ajax/javascript/XML_RPC_Response.js'));
 
-		$entries['xml-rpc-ajax/javascript/XML_RPC_Client.js'] =
-			new SwatJavaScriptHtmlHeadEntry(
-				'xml-rpc-ajax/javascript/XML_RPC_Client.js');
+		$entries->addEntry(new SwatJavaScriptHtmlHeadEntry(
+				'xml-rpc-ajax/javascript/XML_RPC_Client.js'));
 
 		return $entries;
 	}
