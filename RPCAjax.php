@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Swat/SwatHtmlHeadEntry.php';
+require_once 'Swat/SwatJavaScriptHtmlHeadEntry.php';
 
 /**
  * The initial setup of an XML-RPC Ajax component
@@ -33,25 +33,24 @@ class XML_RPCAjax
 	{
 		$entries = array();
 		$entries['xml-rpc-ajax/javascript/XML_RPC_Types.js'] =
-			new SwatHtmlHeadEntry('xml-rpc-ajax/javascript/XML_RPC_Types.js',
-				SwatHtmlHeadEntry::TYPE_JAVA_SCRIPT);
+			new SwatJavaScriptHtmlHeadEntry(
+				'xml-rpc-ajax/javascript/XML_RPC_Types.js');
 
 		$entries['xml-rpc-ajax/javascript/XML_RPC_Exception.js'] =
-			new SwatHtmlHeadEntry(
-				'xml-rpc-ajax/javascript/XML_RPC_Exception.js',
-				SwatHtmlHeadEntry::TYPE_JAVA_SCRIPT);
+			new SwatJavaScriptHtmlHeadEntry(
+				'xml-rpc-ajax/javascript/XML_RPC_Exception.js');
 
 		$entries['xml-rpc-ajax/javascript/XML_RPC_Request.js'] =
-			new SwatHtmlHeadEntry('xml-rpc-ajax/javascript/XML_RPC_Request.js',
-				SwatHtmlHeadEntry::TYPE_JAVA_SCRIPT);
+			new SwatJavaScriptHtmlHeadEntry(
+				'xml-rpc-ajax/javascript/XML_RPC_Request.js');
 
 		$entries['xml-rpc-ajax/javascript/XML_RPC_Response.js'] =
-			new SwatHtmlHeadEntry('xml-rpc-ajax/javascript/XML_RPC_Response.js',
-				SwatHtmlHeadEntry::TYPE_JAVA_SCRIPT);
+			new SwatJavaScriptHtmlHeadEntry(
+				'xml-rpc-ajax/javascript/XML_RPC_Response.js');
 
 		$entries['xml-rpc-ajax/javascript/XML_RPC_Client.js'] =
-			new SwatHtmlHeadEntry('xml-rpc-ajax/javascript/XML_RPC_Client.js',
-				SwatHtmlHeadEntry::TYPE_JAVA_SCRIPT);
+			new SwatJavaScriptHtmlHeadEntry(
+				'xml-rpc-ajax/javascript/XML_RPC_Client.js');
 
 		return $entries;
 	}
