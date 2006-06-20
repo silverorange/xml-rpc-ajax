@@ -30,7 +30,7 @@ class XML_RPCAjax
 	 *                               containing the required JavaScript files
 	 *                               for an AJAX XML-RPC client.
 	 */
-	public static function getHtmlHeadEntries()
+	public static function getHtmlHeadEntrySet()
 	{
 		$set = new SwatHtmlHeadEntrySet();
 
