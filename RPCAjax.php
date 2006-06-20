@@ -30,25 +30,26 @@ class XML_RPCAjax
 	 *                               containing the required JavaScript files
 	 *                               for an AJAX XML-RPC client.
 	 */
-	public static function &getHtmlHeadEntries()
+	public static function getHtmlHeadEntries()
 	{
-		$entries = new SwatHtmlHeadEntrySet();
-		$entries->addEntry(new SwatJavaScriptHtmlHeadEntry(
+		$set = new SwatHtmlHeadEntrySet();
+
+		$set->addEntry(new SwatJavaScriptHtmlHeadEntry(
 				'xml-rpc-ajax/javascript/XML_RPC_Types.js'));
 
-		$entries->addEntry(new SwatJavaScriptHtmlHeadEntry(
+		$set->addEntry(new SwatJavaScriptHtmlHeadEntry(
 				'xml-rpc-ajax/javascript/XML_RPC_Exception.js'));
 
-		$entries->addEntry(new SwatJavaScriptHtmlHeadEntry(
+		$set->addEntry(new SwatJavaScriptHtmlHeadEntry(
 				'xml-rpc-ajax/javascript/XML_RPC_Request.js'));
 
-		$entries->addEntry(new SwatJavaScriptHtmlHeadEntry(
+		$set->addEntry(new SwatJavaScriptHtmlHeadEntry(
 				'xml-rpc-ajax/javascript/XML_RPC_Response.js'));
 
-		$entries->addEntry(new SwatJavaScriptHtmlHeadEntry(
+		$set->addEntry(new SwatJavaScriptHtmlHeadEntry(
 				'xml-rpc-ajax/javascript/XML_RPC_Client.js'));
 
-		return $entries;
+		return $set;
 	}
 }
 
