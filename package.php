@@ -2,7 +2,7 @@
 
 require_once 'PEAR/PackageFileManager2.php';
 
-$version = '0.0.6';
+$version = '0.1.1';
 $notes = <<<EOT
 - initial test package
 EOT;
@@ -20,7 +20,7 @@ $result = $package->setOptions(
 	array(
 		'filelistgenerator' => 'svn',
 		'simpleoutput'      => true,
-		'baseinstalldir'    => '/XML/RPC',
+		'baseinstalldir'    => '/XML',
 		'packagedirectory'  => './',
 		'dir_roles'         => array(
 			'www' => 'data',
@@ -53,8 +53,8 @@ $package->addMaintainer('lead', 'gauthierm', 'Mike Gauthier', 'mike@silverorange
 
 $package->setPhpDep('5.0.5');
 $package->setPearinstallerDep('1.4.0');
-$package->addPackageDepWithChannel('required', 'XML_RPC2', 'pear.silverorange.com', '0.0.1');
-$package->addPackageDepWithChannel('required', 'Swat', 'pear.silverorange.com', '0.0.1');
+//$package->addPackageDepWithChannel('required', 'XML_RPC2', 'pear.silverorange.com', '0.0.1');
+//$package->addPackageDepWithChannel('required', 'Swat', 'pear.silverorange.com', '0.0.1');
 $package->generateContents();
 
 //$package->addReplacement('package-info', 'pear-config', '@package_version@', 'version');
