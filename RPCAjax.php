@@ -35,19 +35,19 @@ class XML_RPCAjax
 		$set = new SwatHtmlHeadEntrySet();
 
 		$set->addEntry(new SwatJavaScriptHtmlHeadEntry(
-				'xml-rpc-ajax/javascript/XML_RPC_Types.js'));
+				'packages/xml-rpc-ajax/javascript/XML_RPC_Types.js'));
 
 		$set->addEntry(new SwatJavaScriptHtmlHeadEntry(
-				'xml-rpc-ajax/javascript/XML_RPC_Exception.js'));
+				'packages/xml-rpc-ajax/javascript/XML_RPC_Exception.js'));
 
 		$set->addEntry(new SwatJavaScriptHtmlHeadEntry(
-				'xml-rpc-ajax/javascript/XML_RPC_Request.js'));
+				'packages/xml-rpc-ajax/javascript/XML_RPC_Request.js'));
 
 		$set->addEntry(new SwatJavaScriptHtmlHeadEntry(
-				'xml-rpc-ajax/javascript/XML_RPC_Response.js'));
+				'packages/xml-rpc-ajax/javascript/XML_RPC_Response.js'));
 
 		$set->addEntry(new SwatJavaScriptHtmlHeadEntry(
-				'xml-rpc-ajax/javascript/XML_RPC_Client.js'));
+				'packages/xml-rpc-ajax/javascript/XML_RPC_Client.js'));
 
 		return $set;
 	}
