@@ -12,6 +12,11 @@ require_once 'Swat/SwatJavaScriptHtmlHeadEntry.php';
  */
 class XML_RPCAjax
 {
+	/**
+	 * The package identifier
+	 */
+	const PACKAGE_ID = 'XML_RPCAjax';
+
 	public function display()
 	{
 		?>
@@ -35,19 +40,24 @@ class XML_RPCAjax
 		$set = new SwatHtmlHeadEntrySet();
 
 		$set->addEntry(new SwatJavaScriptHtmlHeadEntry(
-				'packages/xml-rpc-ajax/javascript/XML_RPC_Types.js'));
+				'packages/xml-rpc-ajax/javascript/XML_RPC_Types.js',
+				self::PACKAGE_ID));
 
 		$set->addEntry(new SwatJavaScriptHtmlHeadEntry(
-				'packages/xml-rpc-ajax/javascript/XML_RPC_Exception.js'));
+				'packages/xml-rpc-ajax/javascript/XML_RPC_Exception.js',
+				self::PACKAGE_ID));
 
 		$set->addEntry(new SwatJavaScriptHtmlHeadEntry(
-				'packages/xml-rpc-ajax/javascript/XML_RPC_Request.js'));
+				'packages/xml-rpc-ajax/javascript/XML_RPC_Request.js',
+				self::PACKAGE_ID));
 
 		$set->addEntry(new SwatJavaScriptHtmlHeadEntry(
-				'packages/xml-rpc-ajax/javascript/XML_RPC_Response.js'));
+				'packages/xml-rpc-ajax/javascript/XML_RPC_Response.js',
+				self::PACKAGE_ID));
 
 		$set->addEntry(new SwatJavaScriptHtmlHeadEntry(
-				'packages/xml-rpc-ajax/javascript/XML_RPC_Client.js'));
+				'packages/xml-rpc-ajax/javascript/XML_RPC_Client.js',
+				self::PACKAGE_ID));
 
 		return $set;
 	}
