@@ -79,25 +79,39 @@ XML_RPC_Client.prototype.getNewRequestObject = function()
  * Calls a remote procedure on the XML-RPC server
  *
  * @param string procedure_name the name of the procedure to run on the server.
- * @param Array procedure_arguments an array of arguments to pass to the
- *                                   procedure being called.
  * @param function callback a function that should be called when the XML-RPC
  *                           server responds to this client request.
+ * @param Array procedure_arguments an array of arguments to pass to the
+ *                                   procedure being called.
+ * @param Array procedure_types an optional array of XML-RPC types to use for
+ *                                  the procedure arguments.
  */
-XML_RPC_Client.prototype.callProcedure = function(procedure_name,
-	procedure_arguments, callback)
+XML_RPC_Client.prototype.callProcedure = function(procedure_name, callback,
+	procedure_arguments, procedure_types)
 {
 	// Check if arguments were passed as an array.
 	// The argument is not added in the constructor as most browsers reserve
 	// a single parameter constructor for specifying the length of the array.
 	if (!(procedure_arguments instanceof Array)) {
 		var arg = procedure_arguments;
-		procedure_arguments = new Array();
+		procedure_arguments = [];
 		procedure_arguments.push(arg);
 	}
 
-	var xml_rpc_request = new XML_RPC_Request(procedure_name,
-		procedure_arguments);
+	// Check if types were passed.
+	if (arguments.length > 3) {
+		// Check if types were passed as an array.
+		if (!(procedure_types instanceof Array)) {
+			var type = procedure_types;
+			procedure_types = [];
+			procedure_types.push(type);
+		}
+		var xml_rpc_request = new XML_RPC_Request(procedure_name,
+			procedure_arguments, procedure_types);
+	} else {
+		var xml_rpc_request = new XML_RPC_Request(procedure_name,
+			procedure_arguments);
+	}
 
 	var post_data = xml_rpc_request.marshall();
 	var request_object = this.getNewRequestObject();
