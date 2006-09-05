@@ -28,7 +28,7 @@ XML_RPC_Request.prototype.marshall = function()
 
 	for (var i = 0; i < this.procedure_arguments.length; i++) {
 		parameter = this.getParameter(i);
-		xml = xml + '<param><parameter>' + parameter.marshall() + '</parameter></param>\n';
+		xml = xml + '<param><value>' + parameter.marshall() + '</value></param>\n';
 	}
 
 	xml = xml + '</params>\n' +
