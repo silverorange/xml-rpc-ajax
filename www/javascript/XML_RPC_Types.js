@@ -185,7 +185,7 @@ function XML_RPC_Int(value)
 		throw new XML_RPC_Exception(0, 'XML_RPC_Int: Value is not an ' +
 			'integer.');
 
-	this.value = float_value;
+	this.value = floor_value;
 }
 
 /**
