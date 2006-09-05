@@ -90,22 +90,15 @@ XML_RPC_Client.prototype.callProcedure = function(procedure_name, callback,
 	procedure_arguments, procedure_types)
 {
 	// Check if arguments were passed as an array.
-	// The argument is not added in the constructor as most browsers reserve
-	// a single parameter constructor for specifying the length of the array.
-	if (!(procedure_arguments instanceof Array)) {
-		var arg = procedure_arguments;
-		procedure_arguments = [];
-		procedure_arguments.push(arg);
-	}
+	if (!(procedure_arguments instanceof Array))
+		procedure_arguments = [procedure_arguments];
 
 	// Check if types were passed.
 	if (arguments.length > 3) {
 		// Check if types were passed as an array.
-		if (!(procedure_types instanceof Array)) {
-			var type = procedure_types;
-			procedure_types = [];
-			procedure_types.push(type);
-		}
+		if (!(procedure_types instanceof Array))
+			procedure_types = [procedure_types];
+
 		var xml_rpc_request = new XML_RPC_Request(procedure_name,
 			procedure_arguments, procedure_types);
 	} else {
