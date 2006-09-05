@@ -173,6 +173,42 @@ XML_RPC_Double.unmarshall = function(double_node)
 }
 
 /**
+ * A 4-byte integer XML-RPC type
+ *
+ * @param number value the number this XML-RPC type represents.
+ */
+function XML_RPC_Int(value)
+{
+	var floor_value = Math.floor(value);
+
+	if (floor_value != value)
+		throw new XML_RPC_Exception(0, 'XML_RPC_Int: Value is not an ' +
+			'integer.');
+
+	this.value = float_value;
+}
+
+/**
+ * Returns this XML-RPC type as a well formed XML fragment
+ *
+ * @return string this XML-RPC type as a well formed XML fragment.
+ */
+XML_RPC_Int.prototype.marshall = function()
+{
+	var xml = '<int>' + this.value + '</int>';
+
+	return xml;
+}
+
+
+XML_RPC_Double.unmarshall = function(int_node)
+{
+	var value = int_node.firstChild.nodeValue;
+	var int_value = parseInt(value);
+	return int_value;
+}
+
+/**
  * A boolean XML-RPC type
  *
  * @param boolean value the booean this XML-RPC type represents.
