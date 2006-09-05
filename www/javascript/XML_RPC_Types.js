@@ -101,7 +101,7 @@ XML_RPC_Array.unmarshall = function(array_node)
  */
 function XML_RPC_String(value)
 {
-	this.value = value;
+	this.value = new String(value);
 }
 
 /**
