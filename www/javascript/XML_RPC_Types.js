@@ -215,7 +215,7 @@ XML_RPC_Double.unmarshall = function(int_node)
  */
 function XML_RPC_Boolean(value)
 {
-	this.value = value;
+	this.value = (value == true) ? true : false;
 }
 
 /**
@@ -225,7 +225,8 @@ function XML_RPC_Boolean(value)
  */
 XML_RPC_Boolean.prototype.marshall = function()
 {
-	var xml = '<boolean>' + this.value + '</boolean>';
+	var int_value = (this.value) ? 1 : 0;
+	var xml = '<boolean>' + int_value + '</boolean>';
 
 	return xml;
 }
