@@ -47,14 +47,14 @@ header('Content-type: text/html; charset=UTF-8');
 			var x = document.getElementById('x').value;
 			var y = document.getElementById('y').value;
 
-			client.callProcedure('multiply', [x, y], do_multiply_cb);
+			client.callProcedure('multiply', do_multiply_cb, [x, y]);
 		}
 
 		function do_search()
 		{
 			var country = document.getElementById('country').value;
 
-			client.callProcedure('search', [country], do_search_cb);
+			client.callProcedure('search', do_search_cb, [country]);
 		}
 
 		function click_result(list_element)
