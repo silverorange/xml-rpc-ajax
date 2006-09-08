@@ -179,13 +179,13 @@ XML_RPC_Double.unmarshall = function(double_node)
  */
 function XML_RPC_Int(value)
 {
-	var floor_value = Math.floor(value);
+	var int_value = (value > 0) ? Math.floor(value) : Math.ceil(value);
 
-	if (floor_value != value)
+	if (int_value != value)
 		throw new XML_RPC_Exception(0, 'XML_RPC_Int: Value is not an ' +
 			'integer.');
 
-	this.value = floor_value;
+	this.value = int_value;
 }
 
 /**
