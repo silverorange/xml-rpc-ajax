@@ -62,7 +62,7 @@ XML_RPC_Array.prototype.marshall = function()
 	var xml = '\n<array><data>\n';
 
 	for (var i = 0; i < this.value.length; i++) {
-		value = XML_RPC_Request.getNewValue(this.value[i]);
+		value = XML_RPC_Request.getXmlRpcValue(this.value[i]);
 		
 		xml = xml + '<value>' + value.marshall() + '</value>\n';
 	}
@@ -258,7 +258,7 @@ XML_RPC_Struct.prototype.marshall = function()
 	var value;
 	var xml = '<struct>\n';
 	for (var member in this.value) {
-		value = XML_RPC_Request.getNewValue(this.value[member]);
+		value = XML_RPC_Request.getXmlRpcValue(this.value[member]);
 
 		xml = xml + '<member>\n<name>' + member + '</name>\n' +
 			'<value>' + value.marshall() + '</value>\n</member>\n';
