@@ -50,14 +50,36 @@ XML_RPC_Request.prototype.marshall = function()
 XML_RPC_Request.prototype.getParameter = function(parameter_number)
 {
 	var new_value;
-	var type;
 	var value = this.procedure_arguments[parameter_number];
 
 	if (this.procedure_types instanceof Array &&
 		this.procedure_types.length > parameter_number)
-		type = this.procedure_types[parameter_number];
+		new_value = XML_RPC_Request.getXmlRpcValue(value,
+			this.procedure_types[parameter_number]);
 	else
-		type = XML_RPC_Request.getType(value);
+		new_value = XML_RPC_Request.getXmlRpcValue(value);
+
+	return new_value;
+}
+
+/**
+ * Gets a new XML-RPC value object for a JavaScript value
+ *
+ * This method is static.
+ *
+ * @param mixed value the JavaScript value to get the XML-RPC value for.
+ * @param String type an optional type of the value. If no type is specified,
+ *                     the type is detected from the JavaScript type.
+ *
+ * @return mixed a new XML-RPC object representing the value.
+ *
+ * @throws XML_RPC_Exception
+ */
+XML_RPC_Request.getXmlRpcValue = function(value, type)
+{
+	var new_value;
+	if (arguments.length < 2)
+		var type = XML_RPC_Request.getType(value);
 
 	switch (type) {
 	case 'string':
