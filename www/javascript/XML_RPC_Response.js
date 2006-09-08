@@ -138,9 +138,10 @@ XML_RPC_Response.parseValueNode = function(value_node)
 			switch (child_nodes[i].nodeName) {
 			case 'int':
 			case 'i4':
+				value = XML_RPC_Int.unmarshall(child_nodes[i]);
+				break;
+
 			case 'double':
-				// javascript makes no destinction between int and double so
-				// treat all numbers as double.
 				value = XML_RPC_Double.unmarshall(child_nodes[i]);
 				break;
 				
