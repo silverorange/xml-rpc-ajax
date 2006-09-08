@@ -201,7 +201,7 @@ XML_RPC_Int.prototype.marshall = function()
 }
 
 
-XML_RPC_Double.unmarshall = function(int_node)
+XML_RPC_Int.unmarshall = function(int_node)
 {
 	var value = int_node.firstChild.nodeValue;
 	var int_value = parseInt(value);
