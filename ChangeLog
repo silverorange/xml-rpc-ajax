@@ -1,0 +1,464 @@
+2006-09-08  gauthierm
+
+	* [r10692] xml-rpc-ajax/trunk/www/javascript/XML_RPC_Types.js:
+	  respect method name change
+	* [r10691] xml-rpc-ajax/trunk/www/javascript/XML_RPC_Request.js:
+	  moved XML-RPC value getting method back into a static method. It
+	  is used
+	  in other places.
+	* [r10690] xml-rpc-ajax/trunk/www/javascript/XML_RPC_Response.js:
+	  unmarshall ints
+	* [r10689] xml-rpc-ajax/trunk/www/javascript/XML_RPC_Types.js:
+	  fix typo that broke double parsing
+	* [r10688] xml-rpc-ajax/trunk/www/javascript/XML_RPC_Types.js:
+	  properly truncate fractional part when converting to int
+
+2006-09-06  gauthierm
+
+	* [r10645] xml-rpc-ajax/trunk/tests/demo.php:
+	  respect API changes
+	* [r10623] xml-rpc-ajax/trunk/www/javascript/XML_RPC_Types.js:
+	  small fixes for boolean values
+	* [r10622] xml-rpc-ajax/trunk/www/javascript/XML_RPC_Client.js:
+	  when debugging is on show request as well as response
+
+2006-09-05  gauthierm
+
+	* [r10612] xml-rpc-ajax/trunk/www/javascript/XML_RPC_Request.js:
+	  oops
+	* [r10611] xml-rpc-ajax/trunk/www/javascript/XML_RPC_Client.js:
+	  better array checks/building
+	* [r10607] xml-rpc-ajax/trunk/www/javascript/XML_RPC_Types.js:
+	  convert strings to strings
+	* [r10605] xml-rpc-ajax/trunk/www/javascript/XML_RPC_Types.js:
+	  fix typo
+	* [r10604] xml-rpc-ajax/trunk/www/javascript/XML_RPC_Client.js,
+	  xml-rpc-ajax/trunk/www/javascript/XML_RPC_Request.js:
+	  - Allow an array of XML-RPC types to be passed when calling a
+	  remote procedure.
+	  - Reordered arguments to callProcedure(). This will break things.
+	* [r10596] xml-rpc-ajax/trunk/www/javascript/XML_RPC_Types.js:
+	  Integer type. Currently unused.
+
+2006-09-05  nrf
+
+	* [r10571] xml-rpc-ajax/trunk/package.php:
+	  prepare for release
+
+2006-08-24  nrf
+
+	* [r10166] xml-rpc-ajax/trunk/RPCAjax.php,
+	  xml-rpc-ajax/trunk/package.php:
+	  - Use new package identifying and dependency mechanism.
+
+2006-06-30  nrf
+
+	* [r7705] xml-rpc-ajax/trunk/package.php:
+	  Bump version
+
+2006-06-26  nrf
+
+	* [r7543] xml-rpc-ajax/trunk/RPCAjax.php:
+	  Change include path for packages. This avoids a naming conflict
+	  between the 'store' tag and the Store package and simplifies the
+	  Apache config.
+
+2006-06-20  nrf
+
+	* [r7281] xml-rpc-ajax/trunk/RPCAjax.php:
+	  Forgot this in earlier commit.
+	* [r7280] xml-rpc-ajax/trunk/package.php:
+	  bump version
+
+2006-06-20  root
+
+	* [r7279] xml-rpc-ajax/trunk/package.php:
+	  bump version, remove dependancies
+
+2006-06-20  nrf
+
+	* [r7277] xml-rpc-ajax/trunk/package.php:
+	  bump version
+	* [r7276] xml-rpc-ajax/trunk/RPCAjax.php:
+	  Rename method.
+	  Remove unecessary ampersands (it's no longer an array).
+
+2006-05-29  gauthierm
+
+	* [r6287] xml-rpc-ajax/trunk/RPCAjax.php:
+	  Respect new Swat API.
+
+2006-05-29  nrf
+
+	* [r6254] xml-rpc-ajax/trunk/package.php:
+	  prepare for release
+
+2006-05-29  gauthierm
+
+	* [r6253] xml-rpc-ajax/trunk/RPCAjax.php:
+	  Respect Swat API changes.
+
+2006-05-25  gauthierm
+
+	* [r6104] xml-rpc-ajax/trunk/www/javascript/XML_RPC_Client.js:
+	  Use correct property name.
+	* [r6103] xml-rpc-ajax/trunk/www/javascript/XML_RPC_Client.js:
+	  Added static debugging property.
+
+2006-04-22  gauthierm
+
+	* [r4858] xml-rpc-ajax/trunk/package.php:
+	  Make XMLRPCAjax Depend on Swat.
+	* [r4857] xml-rpc-ajax/trunk/RPCAjax.php:
+	  Respect Swat API changes.
+	* [r4853] xml-rpc-ajax/trunk/RPCAjax.php:
+	  Added static method to get an array of html head entries for the
+	  xml-rpc
+	  ajax client.
+
+2005-12-21  gauthierm
+
+	* [r2792] xml-rpc-ajax/trunk/www/javascript/XML_RPC_Types.js:
+	  parseDouble doesn't exist but praseFloat does.
+
+2005-11-09  dave
+
+	* [r2483] xml-rpc-ajax/trunk/package.php,
+	  xml-rpc-ajax/trunk/package.xml:
+	  php script to build our pear spec file, remove the manually
+	  built one
+
+2005-10-21  nrf
+
+	* [r2387] xml-rpc-ajax/trunk/tests/countries.php,
+	  xml-rpc-ajax/trunk/tests/demo.php,
+	  xml-rpc-ajax/trunk/tests/server.php:
+	  Add doc blocks
+
+2005-09-26  gauthierm
+
+	* [r2126] xml-rpc-ajax/trunk/www/javascript/XML_RPC_Client.js:
+	  As of the resolution of
+	  https://bugzilla.mozilla.org/show_bug.cgi?id=297078
+	  header names for the setRequestHeader method of the
+	  XMLHttpRequest object
+	  can no longer contain certain token characters. The colon is
+	  included in this
+	  list so I'm removing it from the user-agent header. This colon
+	  was a typo
+	  anyways.
+	  
+	  As of the resolution of
+	  https://bugzilla.mozilla.org/show_bug.cgi?id=302263
+	  the header 'content-length' is not be settable using on the
+	  XMLHttpRequest
+	  object in mozilla browsers. I presume mozilla sets the
+	  content-length header
+	  automatically. The XML-RPC spec requires the content-length
+	  header to be set
+	  so I'll check to make sure other browsers do as well.
+
+2005-09-12  gauthierm
+
+	* [r1915] xml-rpc-ajax/trunk/www/javascript/XML_RPC_Client.js:
+	  Don't silently die on errors. This makes debugging difficult. We
+	  can always add
+	  it back in if we are generating a lot of errors.
+	* [r1914] xml-rpc-ajax/trunk/www/javascript/XML_RPC_Types.js:
+	  Allow empty strings to be returned.
+
+2005-09-04  gauthierm
+
+	* [r1723] xml-rpc-ajax/trunk/www/javascript/XML_RPC_Client.js:
+	  Two fixes.
+	  - Check if the passed procedure_arguments is an array and if it
+	  is not then
+	  add the value to an array.
+	  - Manually calculate the document base href if we are using
+	  Opera.
+	* [r1722] xml-rpc-ajax/trunk/www/javascript/XML_RPC_Request.js:
+	  Throw an exception if an unconvertable type is passed to
+	  getNewValue().
+
+2005-08-05  gauthierm
+
+	* [r1279] xml-rpc-ajax/trunk/tests/server.php:
+	  Remove graffitti wall methods.
+	* [r1278] xml-rpc-ajax/trunk/tests/server.php:
+	  Add class level docblock.
+
+2005-07-26  gauthierm
+
+	* [r1188] xml-rpc-ajax/trunk/tests/demo.php,
+	  xml-rpc-ajax/trunk/tests/multiply.php:
+	  Rename this file to more accurately represent its contents.
+	* [r1187] xml-rpc-ajax/trunk/tests/multiply.php:
+	  Use callProceure() instead of callXmlRpcProcedure() and remove
+	  unnecessary XHTML_Escaper script.
+
+2005-07-26  nrf
+
+	* [r1179] xml-rpc-ajax/trunk/package.xml:
+	  Updated package.xml for release.
+
+2005-07-26  gauthierm
+
+	* [r1178] xml-rpc-ajax/trunk/www/javascript/XML_RPC_Client.js,
+	  xml-rpc-ajax/trunk/www/javascript/XML_RPC_Types.js:
+	  Fix struct parsing.
+
+2005-07-26  nrf
+
+	* [r1177] xml-rpc-ajax/trunk/RPCAjax.php,
+	  xml-rpc-ajax/trunk/XMLRPCAjax.php,
+	  xml-rpc-ajax/trunk/package.xml:
+	  Updated package.xml and changed package naming to be more
+	  PEAR-like.
+
+2005-07-26  gauthierm
+
+	* [r1176] xml-rpc-ajax/trunk/package.xml:
+	  Add XMLRPCAjax.php to the package.
+
+2005-07-25  gauthierm
+
+	* [r1175] xml-rpc-ajax/trunk/www/javascript/XML_RPC_Client.js:
+	  Renamed callXmlRpcProcedure as callProcedure and added some
+	  debug alerts for
+	  now.
+	* [r1169] xml-rpc-ajax/trunk/XMLRPCAjax.php:
+	  Added a php class by Nick that displays the appropriate
+	  javascript.
+
+2005-07-24  gauthierm
+
+	* [r1159] xml-rpc-ajax/trunk/www/javascript/XML_RPC_Request.js,
+	  xml-rpc-ajax/trunk/www/javascript/XML_RPC_Types.js:
+	  Support Date objects and add timezone information to date
+	  marshalling method.
+
+2005-07-23  gauthierm
+
+	* [r1158] xml-rpc-ajax/trunk/www/javascript/XML_RPC_Types.js:
+	  Added conversion of javascript date object to XML-RPC datatype.
+
+2005-07-22  gauthierm
+
+	* [r1157] xml-rpc-ajax/trunk/www/javascript/XHTML_Escaper.js,
+	  xml-rpc-ajax/trunk/www/javascript/XML_RPC_Client.js,
+	  xml-rpc-ajax/trunk/www/javascript/XML_RPC_Request.js,
+	  xml-rpc-ajax/trunk/www/javascript/XML_RPC_Response.js,
+	  xml-rpc-ajax/trunk/www/javascript/XML_RPC_Types.js:
+	  Working on making XML-RPC parsing better. Marshalling and
+	  unmarshalling methods
+	  have both been moved into the XML-RPC type classes. There is
+	  still room for
+	  improvement but I have to go get ready for Steven's wedding.
+
+2005-07-21  gauthierm
+
+	* [r1156] xml-rpc-ajax/trunk/README:
+	  cleaning this up for a labs post
+
+2005-07-21  nrf
+
+	* [r1155] xml-rpc-ajax/trunk/tests/multiply.php:
+	  Changed to use relative paths.
+
+2005-07-21  gauthierm
+
+	* [r1154] xml-rpc-ajax/trunk/tests/multiply.php,
+	  xml-rpc-ajax/trunk/www/javascript/XML_RPC_Client.js,
+	  xml-rpc-ajax/trunk/www/javascript/XML_RPC_Exception.js,
+	  xml-rpc-ajax/trunk/www/javascript/XML_RPC_Response.js:
+	  Better exception handling.
+
+2005-07-20  gauthierm
+
+	* [r1149] xml-rpc-ajax/trunk/tests/multiply.php:
+	  Make the test work again.
+
+2005-07-20  nrf
+
+	* [r1148] xml-rpc-ajax/trunk/package.xml:
+	  Fixed dependency type.
+	* [r1147] sajax, xml-rpc-ajax:
+	  Changed project name to xml-rpc-ajax.
+
+2005-07-20  gauthierm
+
+	* [r1146] sajax/trunk/javascript, sajax/trunk/www/javascript,
+	  sajax/trunk/www/javascript/XHTML_Escaper.js,
+	  sajax/trunk/www/javascript/XML_RPC_Client.js,
+	  sajax/trunk/www/javascript/XML_RPC_Request.js,
+	  sajax/trunk/www/javascript/XML_RPC_Response.js,
+	  sajax/trunk/www/javascript/XML_RPC_Types.js:
+	  Moved javascript into www directory.
+	* [r1145] sajax/trunk/README, sajax/trunk/Sajax.php,
+	  sajax/trunk/TODO, sajax/trunk/javascript/XHTML_Escaper.js,
+	  sajax/trunk/javascript/XML_RPC_Client.js,
+	  sajax/trunk/javascript/XML_RPC_Request.js,
+	  sajax/trunk/javascript/XML_RPC_Response.js,
+	  sajax/trunk/javascript/XML_RPC_Types.js,
+	  sajax/trunk/package.xml, sajax/trunk/tests/countries.php,
+	  sajax/trunk/tests/multiply.php, sajax/trunk/tests/server.php,
+	  sajax/trunk/tests/wall.php, sajax/trunk/www:
+	  Major reorganization of the AJAX stuff. All the PHP code has
+	  been removed.
+
+2005-07-14  gauthierm
+
+	* [r1127] sajax/trunk/javascript/XML_RPC_Request.js,
+	  sajax/trunk/javascript/XML_RPC_Types.js:
+	  Allow other types than strings in requests.
+
+2005-07-13  gauthierm
+
+	* [r1117] sajax/trunk/javascript/XML_RPC_Client.js,
+	  sajax/trunk/javascript/XML_RPC_Request.js:
+	  Move XML-RPC request to its own object.
+	* [r1116] sajax/trunk/javascript,
+	  sajax/trunk/javascript/XHTML_Escaper.js,
+	  sajax/trunk/javascript/XML_RPC_Client.js,
+	  sajax/trunk/javascript/XML_RPC_Response.js:
+	  Put these scripts in their own files and folder instead of
+	  embedded in PHP.
+
+2005-07-12  gauthierm
+
+	* [r1101] sajax/trunk/Sajax.php:
+	  Make all requests POST requests. XML-RPC requires all requests
+	  to be POST
+	  requests.
+
+2005-07-11  gauthierm
+
+	* [r1096] sajax/trunk/Sajax.php:
+	  Use spaces instead of tabs for initializing the javascript
+	  object instance.
+	* [r1095] sajax/trunk/Sajax.php:
+	  Documentation update.
+	* [r1094] sajax/trunk/Sajax.php:
+	  Fix typo.
+	* [r1093] sajax/trunk/Sajax.php:
+	  Made the XML document not have whitespace. This makes the
+	  javascript parsing
+	  a little simpler as it does not have to iterate through empty
+	  #text nodes.
+	* [r1092] sajax/trunk/Sajax.php:
+	  Documentation updates.
+	* [r1091] sajax/trunk/Sajax.php:
+	  Make wrapper javascript functions methods of object instances
+	  instead of
+	  methods of the javascript prototype object.
+	* [r1090] sajax/trunk/Sajax.php:
+	  The arguments identifier is always defined in the function being
+	  called so
+	  we can use it without prefixing the function name.
+	* [r1089] sajax/trunk/Sajax.php:
+	  Turn off debug mode
+	  
+	  Correct package link in header.
+	* [r1088] sajax/trunk/Sajax.php:
+	  Request objects cannot be busy anymore because a new one is used
+	  for each
+	  request.
+	* [r1087] sajax/trunk/Sajax.php:
+	  Whitespace cleanup.
+	* [r1086] sajax/trunk/Sajax.php:
+	  More awesomer javascript parsing of returned XML DOMDocument.
+
+2005-07-08  gauthierm
+
+	* [r1085] sajax/trunk/Sajax.php:
+	  Revert back to previous behaviour of creating a new
+	  XMLHttpRequest object for
+	  each request rather than using one attached to the class. This
+	  removes the
+	  possibility of making a request on an already busy request
+	  object, thus throwing
+	  an exception.
+
+2005-07-07  gauthierm
+
+	* [r1079] sajax/trunk/Sajax.php:
+	  Removed part in documentation about not using XML because it is
+	  now used.
+	  
+	  Added more documentation to class header.
+	* [r1078] sajax/trunk/TODO:
+	  Update TODO
+	* [r1077] sajax/trunk/Sajax.php:
+	  More meaningful debug messages in javascript.
+	* [r1076] sajax/trunk/Sajax.php:
+	  Slightly tidier javascript output.
+	* [r1075] sajax/trunk/Sajax.php:
+	  Use XML to send data back to the client.
+	  
+	  This removes the weird string stuff from Sajax. This is not SOAP
+	  and I think
+	  SOAP is too much for all that is needed here. The simple XML
+	  dialect I have
+	  used will work fine.
+	* [r1064] sajax/trunk/Sajax.php:
+	  Fix a couple of typos.
+	* [r1063] sajax/trunk/Sajax.php:
+	  Mode all the static javascript into a single method.
+	  
+	  This may all be moved into a separate include file at a later
+	  date.
+	* [r1062] sajax/trunk/Sajax.php:
+	  Clean up server request handling code.
+	  
+	  Make request_type a parameter of the constructor.
+	  
+	  Add an id property to the class that is used in object specific
+	  javascript.
+	* [r1054] sajax/trunk/Sajax.php:
+	  Fix typo for POST type requests.
+	* [r1048] sajax/trunk/Sajax.php:
+	  Move initialization of request_object property into the object
+	  constructor.
+	  
+	  Clone the request_uri in hte callFunction() method so that
+	  building http get
+	  requests works properly.
+
+2005-07-06  gauthierm
+
+	* [r1047] sajax/trunk/Sajax.php:
+	  Mode debug javascript method into the same php method as the
+	  getRequestObject and the object constructor.
+	* [r1046] sajax/trunk/Sajax.php:
+	  Change the javascript to be object oriented.
+	* [r1041] sajax/trunk/Sajax.php:
+	  Add line breaks.
+	* [r1034] sajax/trunk/Sajax.php:
+	  Use heredoc syntax for javascript code as it enables syntax
+	  highlighting
+	  and does not need manual line breaks, etc.
+	* [r1033] sajax/trunk/Sajax.php:
+	  Tabs-to-spaces and remove whitespace on empty lines.
+	* [r1032] sajax/trunk/Sajax.php:
+	  Put headers into their own private method.
+	* [r1031] sajax/trunk/Sajax.php:
+	  Fix typo in constant.
+
+2005-07-05  gauthierm
+
+	* [r1028] sajax/trunk/TODO:
+	  A list of stuff to do before submitting to PEAR.
+	* [r1027] sajax/trunk/Sajax.php:
+	  Use PEAR style private method names.
+	* [r1026] sajax/trunk/Sajax.php:
+	  Use PEAR style private property names.
+	* [r1025] sajax/trunk/Sajax.php:
+	  Change constants to be compatible with php4 and thus more likely
+	  to be accepted into PEAR.
+	* [r1024] sajax/trunk/Sajax.php, sajax/trunk/package.xml,
+	  sajax/trunk/tests, sajax/trunk/tests/multiply.php,
+	  sajax/trunk/tests/wall.php:
+	  Import sajax package.
+	* [r1023] sajax/trunk:
+	  Create trunk directory.
+
