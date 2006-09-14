@@ -1,3 +1,9 @@
+2006-09-12  nrf
+
+	* [r10872] xml-rpc-ajax/trunk/ChangeLog,
+	  xml-rpc-ajax/trunk/package.php:
+	  prepare for release
+
 2006-09-08  gauthierm
 
 	* [r10692] xml-rpc-ajax/trunk/www/javascript/XML_RPC_Types.js:
