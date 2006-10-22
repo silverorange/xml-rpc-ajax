@@ -2,6 +2,7 @@
 
 require_once 'Swat/SwatHtmlHeadEntrySet.php';
 require_once 'Swat/SwatJavaScriptHtmlHeadEntry.php';
+require_once 'YUI/YUI.php';
 
 /**
  * The initial setup of an XML-RPC Ajax component
@@ -27,6 +28,9 @@ class XML_RPCAjax
 	public static function getHtmlHeadEntrySet()
 	{
 		$set = new SwatHtmlHeadEntrySet();
+
+		$yui = new YUI('connection');
+		$set->addEntrySet($yui->getHtmlHeadEntrySet());
 
 		$set->addEntry(new SwatJavaScriptHtmlHeadEntry(
 			'packages/xml-rpc-ajax/javascript/XML_RPC_Types.js',
