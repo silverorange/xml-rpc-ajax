@@ -1,3 +1,20 @@
+2006-10-22  gauthierm
+
+	* [r12215] xml-rpc-ajax/trunk/RPCAjax.php:
+	  add required YUI components for async connection ability.
+	* [r12214] xml-rpc-ajax/trunk/RPCAjax.php:
+	  remove unused and obsoleted method
+	* [r12213] xml-rpc-ajax/trunk/RPCAjax.php:
+	  fix indentation
+	* [r12212] xml-rpc-ajax/trunk/www/javascript/XML_RPC_Client.js:
+	  Use YUI library for asynchronous connections. Fixes #134.
+
+2006-09-14  nrf
+
+	* [r10985] xml-rpc-ajax/trunk/ChangeLog,
+	  xml-rpc-ajax/trunk/package.php:
+	  prepare for release
+
 2006-09-12  nrf
 
 	* [r10872] xml-rpc-ajax/trunk/ChangeLog,
