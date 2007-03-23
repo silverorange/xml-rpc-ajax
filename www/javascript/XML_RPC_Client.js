@@ -69,7 +69,7 @@ XML_RPC_Client.prototype.callProcedure = function(procedure_name, callback,
 	// send appropriate headers
 	YAHOO.util.Connect.setDefaultPostHeader(false);
 	YAHOO.util.Connect.initHeader('Content-Type', 'text/xml');
-	YAHOO.util.Connect.initHeader('User-Agent', 'XML-RPC Javascript');
+	YAHOO.util.Connect.initHeader('User-Agent', window.navigator.UserAgent);
 
 	// open an asynchronous HTTP connection to the XML-RPC server
 	var request = YAHOO.util.Connect.asyncRequest('POST', this.request_uri,
