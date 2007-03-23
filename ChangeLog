@@ -1,3 +1,19 @@
+2007-03-23  nrf
+
+	* [r16160] xml-rpc-ajax/trunk/www/javascript/XML_RPC_Client.js:
+	  Set user agent to match the browser itself.
+
+2007-02-08  gauthierm
+
+	* [r14798] xml-rpc-ajax/trunk/RPCAjax.php:
+	  Use SwatYUI instead of YUI
+
+2006-11-02  gauthierm
+
+	* [r12603] xml-rpc-ajax/trunk/ChangeLog,
+	  xml-rpc-ajax/trunk/package.php:
+	  prepare for release of 1.0.1
+
 2006-10-22  gauthierm
 
 	* [r12215] xml-rpc-ajax/trunk/RPCAjax.php:
