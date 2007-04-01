@@ -1,5 +1,15 @@
+2007-04-01  gauthierm
+
+	* [r16446] xml-rpc-ajax/trunk/www/javascript/XML_RPC_Client.js:
+	  Get user agent from correct navigator.window property. This
+	  should fix false alarm session hijacking attempt exceptinos on
+	  the Veseys quickorder.
+
 2007-03-23  nrf
 
+	* [r16161] xml-rpc-ajax/trunk/ChangeLog,
+	  xml-rpc-ajax/trunk/package.php:
+	  prepare for release of 1.0.2
 	* [r16160] xml-rpc-ajax/trunk/www/javascript/XML_RPC_Client.js:
 	  Set user agent to match the browser itself.
 
