@@ -235,7 +235,6 @@ XML_RPC_Boolean.unmarshall = function(boolean_node)
 {
 	var value = boolean_node.firstChild.nodeValue;
 	var boolean_value = (parseInt(value)) ? true : false;
-	alert(boolean_value + ':' + value);
 	return boolean_value;
 }
 
