@@ -1,3 +1,16 @@
+2007-04-15  gauthierm
+
+	* [r16851] xml-rpc-ajax/trunk/www/javascript/XML_RPC_Types.js:
+	  remove accidentally committed debug statement.
+	* [r16850] xml-rpc-ajax/trunk/www/javascript/XML_RPC_Types.js:
+	  Pase boolean false values correctly.
+
+2007-04-01  nrf
+
+	* [r16447] xml-rpc-ajax/trunk/ChangeLog,
+	  xml-rpc-ajax/trunk/package.php:
+	  prepare for release of 1.0.3
+
 2007-04-01  gauthierm
 
 	* [r16446] xml-rpc-ajax/trunk/www/javascript/XML_RPC_Client.js:
