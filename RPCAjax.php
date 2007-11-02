@@ -31,25 +31,8 @@ class XML_RPCAjax
 
 		$yui = new SwatYUI(array('connection'));
 		$set->addEntrySet($yui->getHtmlHeadEntrySet());
-
 		$set->addEntry(new SwatJavaScriptHtmlHeadEntry(
-			'packages/xml-rpc-ajax/javascript/XML_RPC_Types.js',
-			self::PACKAGE_ID));
-
-		$set->addEntry(new SwatJavaScriptHtmlHeadEntry(
-			'packages/xml-rpc-ajax/javascript/XML_RPC_Exception.js',
-			self::PACKAGE_ID));
-
-		$set->addEntry(new SwatJavaScriptHtmlHeadEntry(
-			'packages/xml-rpc-ajax/javascript/XML_RPC_Request.js',
-			self::PACKAGE_ID));
-
-		$set->addEntry(new SwatJavaScriptHtmlHeadEntry(
-			'packages/xml-rpc-ajax/javascript/XML_RPC_Response.js',
-			self::PACKAGE_ID));
-
-		$set->addEntry(new SwatJavaScriptHtmlHeadEntry(
-			'packages/xml-rpc-ajax/javascript/XML_RPC_Client.js',
+			'packages/xml-rpc-ajax/javascript/xml-rpc-ajax.js',
 			self::PACKAGE_ID));
 
 		return $set;
