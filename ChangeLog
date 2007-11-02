@@ -1,3 +1,11 @@
+2007-04-19  nrf
+
+	* [r16999] xml-rpc-ajax/trunk/package.php:
+	  prepare for release of 1.0.5
+	* [r16997] xml-rpc-ajax/trunk/ChangeLog,
+	  xml-rpc-ajax/trunk/package.php:
+	  prepare for release of 1.0.4
+
 2007-04-15  gauthierm
 
 	* [r16851] xml-rpc-ajax/trunk/www/javascript/XML_RPC_Types.js:
