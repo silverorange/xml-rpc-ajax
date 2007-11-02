@@ -25,7 +25,7 @@ XML_RPC_Date.prototype.marshall = function()
 	var timezoneOffsetHours = Math.floor(this.value.getTimezoneOffset() / 60)
 	var timezoneOffsetMinutes = this.value.getTimezoneOffset() -
 		(timezoneOffsetHours * 60);
-		
+
 	var xml = '<dateTime.iso8601>' +
 		this.value.getFullYear() +
 		padZeros(this.value.getMonth() + 1) +
@@ -34,7 +34,7 @@ XML_RPC_Date.prototype.marshall = function()
 		padZeros(this.value.getHours()) + ':' +
 		padZeros(this.value.getMinutes()) + ':' +
 		padZeros(this.value.getSeconds()) +
-		timezoneOffsetSign + 
+		timezoneOffsetSign +
 		padZeros(timezoneOffsetHours) +
 		padZeros(timezoneOffsetMinutes) +
 		'</dateTime.iso8601>';
@@ -71,7 +71,7 @@ XML_RPC_Array.prototype.marshall = function()
 
 	for (var i = 0; i < this.value.length; i++) {
 		value = XML_RPC_Request.getXmlRpcValue(this.value[i]);
-		
+
 		xml = xml + '<value>' + value.marshall() + '</value>\n';
 	}
 
@@ -319,7 +319,7 @@ function XML_RPC_Request(procedure_name, procedure_arguments, procedure_types)
 XML_RPC_Request.prototype.marshall = function()
 {
 	var parameter;
-	var xml = '<' + '?xml version="1.0" encoding="UTF-8"?' + '>\n' + 
+	var xml = '<' + '?xml version="1.0" encoding="UTF-8"?' + '>\n' +
 		'<methodCall>\n' +
 		'<methodName>' + this.procedure_name + '</methodName>\n' +
 		'<params>\n';
@@ -511,7 +511,7 @@ function XML_RPC_Response(response_xml)
 	}
 
 	if (value_node == null) {
-		throw new XML_RPC_Exception(0, 'XML_RPC_Response: Malformed ' + 
+		throw new XML_RPC_Exception(0, 'XML_RPC_Response: Malformed ' +
 			'response. No value node is present in the response.');
 	}
 
@@ -597,7 +597,7 @@ XML_RPC_Response.parseValueNode = function(value_node)
 			case 'double':
 				value = XML_RPC_Double.unmarshall(child_nodes[i]);
 				break;
-				
+
 			case 'base64':
 				// TODO: not implemented yet.
 				value = null;
