@@ -119,7 +119,7 @@ function XML_RPC_String(value)
  */
 XML_RPC_String.prototype.marshall = function()
 {
-	var value = this.value.replace('&', '&amp;').replace('<', '&lt;');
+	var value = this.value.replace(/&/g, '&amp;').replace(/</g, '&lt;');
 	var xml = '<string>' + value + '</string>';
 
 	return xml;
