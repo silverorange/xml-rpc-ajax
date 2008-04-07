@@ -658,7 +658,7 @@ XML_RPC_Response.parseValueNode = function(value_node)
  */
 function XML_RPC_Client(request_uri)
 {
-	this.request_uri = request_uri;
+	this.setRequestUri(request_uri);
 }
 
 /**
@@ -670,6 +670,30 @@ function XML_RPC_Client(request_uri)
  * @static
  */
 XML_RPC_Client.debug = false;
+
+XML_RPC_Client.prototype.setRequestUri = function(uri)
+{
+	// check for relative URI
+	if (uri.search(/^https?:\/\//) != 0) {
+		// looks for base href
+		var bases = document.getElementsByTagName('base');
+		if (bases.length > 0 && bases[0].href) {
+			var base = bases[0].href;
+			if (base.charAt(base.length - 1) != '/') {
+				base += '/';
+			}
+			if (uri.charAt(0) == '/') {
+				uri = uri.substring(1);
+			}
+			uri = base + uri;
+		}
+	}
+
+	if (XML_RPC_Client.debug)
+		alert('XML_RPC_Client: Request URI:\n' + uri);
+
+	this.request_uri = uri;
+}
 
 /**
  * Calls a remote procedure on the XML-RPC server
