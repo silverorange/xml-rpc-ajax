@@ -325,16 +325,21 @@ XML_RPC_Request.prototype.marshall = function()
 	var parameter;
 	var xml = '<' + '?xml version="1.0" encoding="UTF-8"?' + '>\n' +
 		'<methodCall>\n' +
-		'<methodName>' + this.procedure_name + '</methodName>\n' +
-		'<params>\n';
+		'<methodName>' + this.procedure_name + '</methodName>\n';
 
-	for (var i = 0; i < this.procedure_arguments.length; i++) {
-		parameter = this.getParameter(i);
-		xml = xml + '<param><value>' + parameter.marshall() + '</value></param>\n';
+	if (this.procedure_arguments.length > 0) {
+		xml = xml + '<params>\n';
+
+		for (var i = 0; i < this.procedure_arguments.length; i++) {
+			parameter = this.getParameter(i);
+			xml = xml + '<param><value>' + parameter.marshall() +
+				'</value></param>\n';
+		}
+
+		xml = xml + '</params>\n';
 	}
 
-	xml = xml + '</params>\n' +
-		'</methodCall>';
+	xml = xml + '</methodCall>';
 
 	return xml;
 }
@@ -709,9 +714,14 @@ XML_RPC_Client.prototype.setRequestUri = function(uri)
 XML_RPC_Client.prototype.callProcedure = function(procedure_name, callback,
 	procedure_arguments, procedure_types)
 {
-	// Check if arguments were passed as an array.
-	if (!(procedure_arguments instanceof Array))
-		procedure_arguments = [procedure_arguments];
+	// Check if arguments were passed.
+	if (arguments.length > 2) {
+		// Check if arguments were passed as an array.
+		if (!(procedure_arguments instanceof Array))
+			procedure_arguments = [procedure_arguments];
+	} else {
+		procedure_arguments = [];
+	}
 
 	// Check if types were passed.
 	if (arguments.length > 3) {
@@ -738,10 +748,10 @@ XML_RPC_Client.prototype.callProcedure = function(procedure_name, callback,
 		argument: callback
 	};
 
-	// send appropriate headers
+	// send appropriate headers, don't send user-agent because WebKit browsers
+	// complain
 	YAHOO.util.Connect.setDefaultPostHeader(false);
 	YAHOO.util.Connect.initHeader('Content-Type', 'text/xml');
-	YAHOO.util.Connect.initHeader('User-Agent', window.navigator.userAgent);
 
 	// open an asynchronous HTTP connection to the XML-RPC server
 	var request = YAHOO.util.Connect.asyncRequest('POST', this.request_uri,
