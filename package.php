@@ -23,11 +23,12 @@ $result = $package->setOptions(
 		'baseinstalldir'    => '/XML',
 		'packagedirectory'  => './',
 		'dir_roles'         => array(
-			'www' => 'data',
-			'tests' => 'test'
+			'www'           => 'data',
+			'dependencies'  => 'data',
+			'tests'         => 'test'
 		),
 		'exceptions'        => array(
-			'README' => 'doc'
+			'README'        => 'doc'
 		),
 	)
 );
