@@ -756,6 +756,11 @@ XML_RPC_Client.prototype.callProcedure = function(procedure_name, callback,
 	// open an asynchronous HTTP connection to the XML-RPC server
 	var request = YAHOO.util.Connect.asyncRequest('POST', this.request_uri,
 		request_callback, post_data);
+
+	// reset the headers because YUI Connect is a singleton and this will
+	// affect any external calls to it.
+	YAHOO.util.Connect.setDefaultPostHeader(true);
+	YAHOO.util.Connect.resetDefaultHeaders();
 }
 
 XML_RPC_Client.prototype.handleSuccessfulResponse = function(o)
