@@ -18,9 +18,9 @@ PEAR::setErrorHandling(PEAR_ERROR_DIE);
 
 $result = $package->setOptions(
 	array(
-		'filelistgenerator' => 'svn',
+		'filelistgenerator' => 'file',
 		'simpleoutput'      => true,
-		'baseinstalldir'    => '/XML',
+		'baseinstalldir'    => '/',
 		'packagedirectory'  => './',
 		'dir_roles'         => array(
 			'www'           => 'data',
@@ -28,7 +28,7 @@ $result = $package->setOptions(
 			'tests'         => 'test'
 		),
 		'exceptions'        => array(
-			'README'        => 'doc'
+			'README.md'     => 'doc'
 		),
 	)
 );
