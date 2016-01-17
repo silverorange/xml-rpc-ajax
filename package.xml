@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.9.5" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+    http://pear.php.net/dtd/tasks-1.0.xsd
+    http://pear.php.net/dtd/package-2.0
+    http://pear.php.net/dtd/package-2.0.xsd">
+ <name>XML_RPCAjax</name>
+ <channel>pear.silverorange.com</channel>
+ <summary>XML-RPC client implementation using AJAX</summary>
+ <description>This class provides an object oriented interface for
+asynchronous server side PHP calls from client side
+javascript without the need for a full page request.</description>
+ <lead>
+  <name>Nathan Fredrickson</name>
+  <user>nrf</user>
+  <email>nathan@silverorange.com</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Mike Gauthier</name>
+  <user>gauthierm</user>
+  <email>mike@silverorange.com</email>
+  <active>yes</active>
+ </lead>
+ <date>2016-01-16</date>
+ <time>23:01:50</time>
+ <version>
+  <release>1.0.13</release>
+  <api>0.0.1</api>
+ </version>
+ <stability>
+  <release>stable</release>
+  <api>stable</api>
+ </stability>
+ <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL</license>
+ <notes>
+see ChangeLog
+ </notes>
+ <contents>
+  <dir baseinstalldir="/" name="/">
+   <dir name="dependencies">
+    <file name="xml-rpc-ajax.yaml" role="data" />
+   </dir> <!-- /dependencies -->
+   <dir name="tests">
+    <file name="countries.php" role="test" />
+    <file name="demo.php" role="test" />
+    <file name="server.php" role="test" />
+   </dir> <!-- /tests -->
+   <dir name="www">
+    <dir name="javascript">
+     <file name="xml-rpc-ajax.js" role="data" />
+    </dir> <!-- /www/javascript -->
+   </dir> <!-- /www -->
+   <dir name="XML">
+    <file name="RPCAjax.php" role="php" />
+   </dir> <!-- /XML -->
+   <file name="ChangeLog" role="data" />
+   <file name="composer.json" role="data" />
+   <file name="README.md" role="doc" />
+  </dir> <!-- / -->
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.1.5</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.0</min>
+   </pearinstaller>
+   <package>
+    <name>Swat</name>
+    <channel>pear.silverorange.com</channel>
+    <min>0.9.4</min>
+   </package>
+  </required>
+ </dependencies>
+ <phprelease />
+ <changelog>
+  <release>
+   <version>
+    <release>1.0.13</release>
+    <api>0.0.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2016-01-16</date>
+   <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL</license>
+   <notes>
+see ChangeLog
+   </notes>
+  </release>
+ </changelog>
+</package>
