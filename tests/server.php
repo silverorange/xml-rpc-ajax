@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   xml-rpc-ajax
- * @copyright 2005 silverorange
+ * @copyright 2005-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 
@@ -40,7 +40,7 @@ header('Pragma: no-cache');
  * This server serves XML-RPC requests from the xml-rpc-ajax demo.
  *
  * @package   xml-rpc-ajax
- * @copyright 2005 silverorange
+ * @copyright 2005-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 class MyServer
