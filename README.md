@@ -5,38 +5,36 @@ asynchronously using JavaScript. The asynchronous calls are handled by the
 JavaScript `XMLHttpRequest` object that allows XML-RPC calls to be made without
 causing a full page request.
 
-Without a lot of preamble here's why this is cool: You can make server calls
-at any time from client javascript. This enables many of the *live* features
-available in newer web applications. Things like live-search and instant-save
-become feasable. Complex processing can be deferred to the server and complex
-procedutes can even be written in a more suitable language than JavaScript. The
-results are then sent to the client without having to reload the page. Further
-still, it is possible to make database calls on the server from client-side
-JavaScript.
-
 This XML-RPC client library is derived from the version 0.10 of the Sajax PHP
-library written by ModernMethod Inc and licensed under a BSD style license.
+library written by ModernMethod, Inc. and licensed under a BSD style license.
 See http://modernmethod.com/sajax/ for more details. This package itself is
 released under the LGPL.
 
-Remore procedure calls from the XML-RPC client occur as follows:
+Remote procedure calls from the XML-RPC client occur as follows:
 
- - Web-server renders JavaScript on client browser.
- - Web broswser parses JavaScript as it renders the page.
- - Client JavaScript calls a remote procedure using the
-   `XML_RPC_Client::callRemoteProcedure()` method.
- - `XML_RPC_Client` object builds an XML-RPC request
- - `XML_RPC_Client` object sends the XML-RPC request via an `XMLHttpRequest`
-   object to the XML-RPC server.
- - XML-RPC server behaves as always. It parses the request and sends the client
-   an XML-RPC response.
- - Client JavaScript finishes receiving XML-RPC server response and parses
-   the XML response into an appropriate JavaScript object.
- - The JavaScript object is passed to a JavaScript callback function.
+```js
+var client = new XML_RPC_Client('https://www.myhost.com/my/endpoint');
+client.callProcedure(
+  'myMethodName',
+  function (response) {
+    // parsed XML-RPC response
+    console.log(response);
+  },
+  [ arg1, arg2, arg3 ],
+  [ type1, type2, type3 ]
+);
+```
+
+The second parameter to `callProcedure()` is a callback that is fired when the
+XML-RPC response is received and parsed.
+
+Types are passed as an array of strings. If types are not passed, type
+inference is used. JavaScript types do not map directly to XML-RPC types so
+this may not always work perfectly.
 
 The client-side XML-RPC response parser creates an appropriately typed
 JavaScript object automatically. This means arrays are returned as `Array`
-objects and structs are returned as simple `Object`s.
+values and structs are returned as `Object` hash-maps.
 
 There are several JavaScript objects being used:
 
@@ -56,7 +54,24 @@ XML_RPC_Exception
 -----------------
 Thrown in various situations by this package
 
-XML_RPC_*type*
---------------
-Represents an XML-RPC data type and can marshall/unmarshall an javascript
-type.
+Types
+-----
+Each XML-RPC data type has a corresponding JavaScript object to handle
+marshalling and unmarshalling data.
+
+ - XML_RPC_Date
+ - XML_RPC_Array
+ - XML_RPC_String,
+ - XML_RPC_Double
+ - XML_RPC_Int
+ - XML_RPC_Boolean
+ - XML_RPC_Struct
+
+Installation
+------------
+Make sure the silverorange composer repository is added to the `composer.json`
+for the project and then run:
+
+```sh
+composer require silverorange/xml-rpc-ajax
+```
