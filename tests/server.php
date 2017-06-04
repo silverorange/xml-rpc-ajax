@@ -1,13 +1,14 @@
 <?php
+
 /**
  * @package   xml-rpc-ajax
  * @copyright 2005-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 
-require_once 'XML/RPC2/Server.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
-// For testing 
+// For testing
 /*
 $GLOBALS['HTTP_RAW_POST_DATA'] = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
@@ -68,11 +69,11 @@ class MyServer
 	public static function search($keyword)
 	{
 		$keyword = strtolower($keyword);
-		
+
 		include_once 'countries.php';
 
 		$return_array = array();
-		
+
 		if (strlen($keyword) > 0) {
 			foreach($countries as $country) {
 				if (strpos(strtolower($country), $keyword) !== false) {
@@ -93,4 +94,5 @@ class MyServer
 
 $server = XML_RPC2_Server::create('MyServer');
 $server->handleCall();
+
 ?>

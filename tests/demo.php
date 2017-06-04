@@ -27,7 +27,7 @@ header('Content-type: text/html; charset=UTF-8');
 		{
 			var results = document.getElementById('results');
 			var html;
-			
+
 			if (countries[0] == '[none]') {
 				html = '';
 			} else {
@@ -41,7 +41,7 @@ header('Content-type: text/html; charset=UTF-8');
 
 			results.innerHTML = html;
 		}
-		
+
 		function do_multiply()
 		{
 			var x = document.getElementById('x').value;
@@ -61,12 +61,12 @@ header('Content-type: text/html; charset=UTF-8');
 		{
 			var country = document.getElementById('country');
 			var results = document.getElementById('results');
-			
+
 			country.value = list_element.innerHTML;
 			country.select();
 			results.innerHTML = '';
 		}
-		
+
 		function update_page()
 		{
 			do_multiply();

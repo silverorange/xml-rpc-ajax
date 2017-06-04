@@ -35,8 +35,5 @@
     "psr-0": {
       "XML_RPCAjax" : ""
     }
-  },
-  "include-path": [
-    "./"
-  ]
+  }
 }
