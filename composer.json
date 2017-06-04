@@ -1,34 +1,34 @@
 {
-	"name": "silverorange/xml_rpc_ajax",
-	"description": "Client-side XML-RPC framework.",
-	"type": "library",
-	"keywords": [ "xmlrpc", "ajax" ],
-	"homepage": "https://github.com/silverorange/xml-rpc-ajax",
-	"license": "LGPL-2.1",
-	"authors": [
-		{
-			"name": "Michael Gauthier",
-			"email": "mike@silverorange.com"
-		},
-		{
-			"name": "Nathan Fredrickson",
-			"email": "nathan@silverorange.com"
-		},
-		{
-			"name": "Nick Burka",
-			"email": "nick@silverorange.com"
-		}
-	],
-	"require": {
-		"php": ">=5.2.1",
-		"silverorange/swat": "^2.2.10"
-	},
-	"autoload": {
-		"psr-0": {
-			"XML_RPCAjax" : ""
-		}
-	},
-	"include-path": [
-		"./"
-	]
+  "name": "silverorange/xml_rpc_ajax",
+  "description": "Client-side XML-RPC framework.",
+  "type": "library",
+  "keywords": [ "xmlrpc", "ajax" ],
+  "homepage": "https://github.com/silverorange/xml-rpc-ajax",
+  "license": "LGPL-2.1",
+  "authors": [
+    {
+      "name": "Michael Gauthier",
+      "email": "mike@silverorange.com"
+    },
+    {
+      "name": "Nathan Fredrickson",
+      "email": "nathan@silverorange.com"
+    },
+    {
+      "name": "Nick Burka",
+      "email": "nick@silverorange.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.2.1",
+    "silverorange/swat": "^2.2.10"
+  },
+  "autoload": {
+    "psr-0": {
+      "XML_RPCAjax" : ""
+    }
+  },
+  "include-path": [
+    "./"
+  ]
 }
