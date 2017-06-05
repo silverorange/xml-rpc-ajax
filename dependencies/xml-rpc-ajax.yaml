@@ -25,5 +25,3 @@ XML_RPCAjax:
 
     # JavaScript resources
     packages/xml-rpc-ajax/javascript/xml-rpc-ajax.js:
-
-# vim: set expandtab tabstop=2 shiftwidth=2 softtabstop=2:
