@@ -21,7 +21,7 @@
   ],
   "require": {
     "php": ">=5.2.1",
-    "silverorange/swat": "^2.2.10"
+    "silverorange/swat": "^3.0.0"
   },
   "require-dev": {
     "silverorange/coding-standard": "^0.6.0"
