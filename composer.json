@@ -23,6 +23,13 @@
     "php": ">=5.2.1",
     "silverorange/swat": "^2.2.10"
   },
+  "require-dev": {
+    "silverorange/coding-standard": "^0.1.0"
+  },
+  "scripts": {
+    "post-install-cmd": "./vendor/bin/phpcs --config-set installed_paths vendor/silverorange/coding-standard/src",
+    "post-update-cmd": "./vendor/bin/phpcs --config-set installed_paths vendor/silverorange/coding-standard/src"
+  },
   "autoload": {
     "psr-0": {
       "XML_RPCAjax" : ""
@@ -30,12 +37,5 @@
   },
   "include-path": [
     "./"
-  ],
-  "require-dev": {
-    "silverorange/coding-standard": "^0.1.0"
-  },
-  "scripts": {
-    "post-install-cmd": "./vendor/bin/phpcs --config-set installed_paths vendor/silverorange/coding-standard/src",
-    "post-update-cmd": "./vendor/bin/phpcs --config-set installed_paths vendor/silverorange/coding-standard/src"
-  }
+  ]
 }
