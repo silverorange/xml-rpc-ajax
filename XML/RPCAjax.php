@@ -1,9 +1,5 @@
 <?php
 
-require_once 'Swat/SwatHtmlHeadEntrySet.php';
-require_once 'Swat/SwatJavaScriptHtmlHeadEntry.php';
-require_once 'Swat/SwatYUI.php';
-
 /**
  * The initial setup of an XML-RPC Ajax component
  *
