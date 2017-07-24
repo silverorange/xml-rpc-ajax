@@ -40,56 +40,56 @@ header('Pragma: no-cache');
  *
  * This server serves XML-RPC requests from the xml-rpc-ajax demo.
  *
- * @package   xml-rpc-ajax
+ * @package   XML_RPCAjax
  * @copyright 2005-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 class MyServer
 {
-	/**
-	 * Multiplies two numbers
-	 *
-	 * @param int $x the left side.
-	 * @param int $y the right side.
-	 *
-	 * @return string the product.
-	 */
-	public static function multiply($x, $y)
-	{
-		return number_format($x * $y, 2);
-	}
+    /**
+     * Multiplies two numbers
+     *
+     * @param int $x the left side.
+     * @param int $y the right side.
+     *
+     * @return string the product.
+     */
+    public static function multiply($x, $y)
+    {
+        return number_format($x * $y, 2);
+    }
 
-	/**
-	 * Searches for a country based on name
-	 *
-	 * @param string $keyword the country name to look for.
-	 *
-	 * @return array an array of matching country names.
-	 */
-	public static function search($keyword)
-	{
-		$keyword = strtolower($keyword);
+    /**
+     * Searches for a country based on name
+     *
+     * @param string $keyword the country name to look for.
+     *
+     * @return array an array of matching country names.
+     */
+    public static function search($keyword)
+    {
+        $keyword = strtolower($keyword);
 
-		include_once 'countries.php';
+        include_once __DIR__ . '/countries.php';
 
-		$return_array = array();
+        $return_array = array();
 
-		if (strlen($keyword) > 0) {
-			foreach($countries as $country) {
-				if (strpos(strtolower($country), $keyword) !== false) {
-					$return_array[] = $country;
-				}
-			}
-		} else {
-			$return_array[] = '[none]';
-		}
+        if ($keyword != '') {
+            foreach ($countries as $country) {
+                if (strpos(strtolower($country), $keyword) !== false) {
+                    $return_array[] = $country;
+                }
+            }
+        } else {
+            $return_array[] = '[none]';
+        }
 
-		if (count($return_array) == 0) {
-			$return_array[] = '[none]';
-		}
+        if (count($return_array) === 0) {
+            $return_array[] = '[none]';
+        }
 
-		return $return_array;
-	}
+        return $return_array;
+    }
 }
 
 $server = XML_RPC2_Server::create('MyServer');
