@@ -9,5 +9,5 @@
 
   <file>./XML</file>
 
-  <rule ref="SilverorangeLegacy" />
+  <rule ref="PEAR" />
 </ruleset>
