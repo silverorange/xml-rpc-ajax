@@ -7,7 +7,7 @@ require_once 'Swat/SwatYUI.php';
 /**
  * The initial setup of an XML-RPC Ajax component
  *
- * @package   xml-rpc-ajax
+ * @package   XML_RPCAjax
  * @copyright 2005-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
