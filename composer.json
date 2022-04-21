@@ -19,9 +19,16 @@
       "email": "nick@silverorange.com"
     }
   ],
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://composer.silverorange.com",
+      "only": ["silverorange/*"]
+    }
+  ],
   "require": {
     "php": ">=5.2.1",
-    "silverorange/swat": "^5.0.0"
+    "silverorange/swat": "^5.0.0 || ^6.0.0"
   },
   "require-dev": {
     "silverorange/coding-standard": "^1.0.0"
