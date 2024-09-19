@@ -26,21 +26,30 @@
       "only": ["silverorange/*"]
     }
   ],
-  "require": {
-    "php": ">=5.2.1",
-    "silverorange/swat": "^5.0.0 || ^6.0.0 || ^7.0.0"
-  },
-  "require-dev": {
-    "silverorange/coding-standard": "^1.0.0"
-  },
-  "scripts": {
-    "lint": "./vendor/bin/phpcs",
-    "post-install-cmd": "./vendor/bin/phpcs --config-set installed_paths vendor/silverorange/coding-standard/src",
-    "post-update-cmd": "./vendor/bin/phpcs --config-set installed_paths vendor/silverorange/coding-standard/src"
-  },
   "autoload": {
     "psr-0": {
       "XML_RPCAjax" : ""
     }
+  },
+  "require": {
+    "php": ">=8.2",
+    "silverorange/swat": "^7.0.0"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^3.64",
+    "phpstan/phpstan": "^1.12",
+    "rector/rector": "^1.2",
+    "silverorange/php-coding-tools": "^1.4",
+    "silverorange/xml_rpc2": "^2.0"
+  },
+  "scripts": {
+    "phpcs": "./vendor/bin/php-cs-fixer check --config=./.php-cs-fixer.php -v",
+    "phpcs:fix": "./vendor/bin/php-cs-fixer fix --config=./.php-cs-fixer.php -v",
+    "phpstan": "./vendor/bin/phpstan analyze",
+    "rector": "./vendor/bin/rector --dry-run",
+    "rector:fix": "./vendor/bin/rector"
+  },
+  "config": {
+    "sort-packages": true
   }
 }
