@@ -25,7 +25,7 @@ class XML_RPCAjax
     {
         $set = new SwatHtmlHeadEntrySet();
 
-        $yui = new SwatYUI(array('connection'));
+        $yui = new SwatYUI(['connection']);
         $set->addEntrySet($yui->getHtmlHeadEntrySet());
         $set->addEntry(
             new SwatJavaScriptHtmlHeadEntry(

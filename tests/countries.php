@@ -6,7 +6,7 @@
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 
-$countries = array(
+$countries = [
     'Andorra',
     'United Arab Emirates',
     'Afghanistan',
@@ -238,6 +238,6 @@ $countries = array(
     'Mayotte',
     'Zambia',
     'South Africa'
-);
+];
 
 ?>

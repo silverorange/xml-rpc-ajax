@@ -72,11 +72,11 @@ class MyServer
 
         include_once __DIR__ . '/countries.php';
 
-        $return_array = array();
+        $return_array = [];
 
         if ($keyword != '') {
             foreach ($countries as $country) {
-                if (strpos(strtolower($country), $keyword) !== false) {
+                if (str_contains(strtolower($country), $keyword)) {
                     $return_array[] = $country;
                 }
             }
