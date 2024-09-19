@@ -1,11 +1,9 @@
 <?php
 
 /**
- * @package   XML_RPCAjax
  * @copyright 2005-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
-
 $countries = [
     'Andorra',
     'United Arab Emirates',
@@ -237,7 +235,5 @@ $countries = [
     'Yugoslavia',
     'Mayotte',
     'Zambia',
-    'South Africa'
+    'South Africa',
 ];
-
-?>
