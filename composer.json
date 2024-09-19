@@ -2,7 +2,10 @@
   "name": "silverorange/xml_rpc_ajax",
   "description": "Client-side XML-RPC framework.",
   "type": "library",
-  "keywords": [ "xmlrpc", "ajax" ],
+  "keywords": [
+    "xmlrpc",
+    "ajax"
+  ],
   "homepage": "https://github.com/silverorange/xml-rpc-ajax",
   "license": "LGPL-2.1",
   "authors": [
@@ -23,12 +26,14 @@
     {
       "type": "composer",
       "url": "https://composer.silverorange.com",
-      "only": ["silverorange/*"]
+      "only": [
+        "silverorange/*"
+      ]
     }
   ],
   "autoload": {
     "psr-0": {
-      "XML_RPCAjax" : ""
+      "XML_RPCAjax": ""
     }
   },
   "require": {

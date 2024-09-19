@@ -18,12 +18,7 @@ pipeline {
                 sh '''
                     master_sha=$(git rev-parse origin/master)
                     newest_sha=$(git rev-parse HEAD)
-                    ./vendor/bin/phpcs \
-                    --standard=SilverorangePEAR \
-                    --tab-width=4 \
-                    --encoding=utf-8 \
-                    --warning-severity=0 \
-                    --extensions=php \
+                    composer run phpcs \
                     $(git diff --diff-filter=ACRM --name-only $master_sha...$newest_sha)
                 '''
             }
@@ -34,7 +29,7 @@ pipeline {
                 branch 'master'
             }
             steps {
-                sh './vendor/bin/phpcs'
+                sh 'composer run phpcs'
             }
         }
     }

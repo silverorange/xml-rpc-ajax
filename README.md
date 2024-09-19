@@ -1,5 +1,5 @@
-Asynchronous XML-RPC Client for JavaScript
-==========================================
+# Asynchronous XML-RPC Client for JavaScript
+
 This package allows you to make XML-RPC requests and receive XML-RPC responses
 asynchronously using JavaScript. The asynchronous calls are handled by the
 JavaScript `XMLHttpRequest` object that allows XML-RPC calls to be made without
@@ -20,8 +20,8 @@ client.callProcedure(
     // parsed XML-RPC response
     console.log(response);
   },
-  [ arg1, arg2, arg3 ],
-  [ type1, type2, type3 ]
+  [arg1, arg2, arg3],
+  [type1, type2, type3]
 );
 ```
 
@@ -38,37 +38,37 @@ values and structs are returned as `Object` hash-maps.
 
 There are several JavaScript objects being used:
 
-XML_RPC_Client
---------------
+## XML_RPC_Client
+
 Makes asynchronous XML-RPC client requests
 
-XML_RPC_Response
-----------------
+## XML_RPC_Response
+
 Parses and unmarshells XML-RPC responses
 
-XML_RPC_Request
----------------
+## XML_RPC_Request
+
 Creates XML-RPC requests
 
-XML_RPC_Exception
------------------
+## XML_RPC_Exception
+
 Thrown in various situations by this package
 
-Types
------
+## Types
+
 Each XML-RPC data type has a corresponding JavaScript object to handle
 marshalling and unmarshalling data.
 
- - XML_RPC_Date
- - XML_RPC_Array
- - XML_RPC_String,
- - XML_RPC_Double
- - XML_RPC_Int
- - XML_RPC_Boolean
- - XML_RPC_Struct
+- XML_RPC_Date
+- XML_RPC_Array
+- XML_RPC_String,
+- XML_RPC_Double
+- XML_RPC_Int
+- XML_RPC_Boolean
+- XML_RPC_Struct
 
-Installation
-------------
+## Installation
+
 Make sure the silverorange composer repository is added to the `composer.json`
 for the project and then run:
 
