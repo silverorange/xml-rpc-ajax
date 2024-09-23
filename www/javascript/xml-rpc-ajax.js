@@ -182,11 +182,12 @@ XML_RPC_Double.unmarshall = function (double_node) {
 function XML_RPC_Int(value) {
   var int_value = value > 0 ? Math.floor(value) : Math.ceil(value);
 
-  if (int_value != value)
+  if (int_value != value) {
     throw new XML_RPC_Exception(
       0,
       'XML_RPC_Int: Value is not an ' + 'integer.'
     );
+  }
 
   this.value = int_value;
 }
@@ -380,7 +381,9 @@ XML_RPC_Request.prototype.getParameter = function (parameter_number) {
  */
 XML_RPC_Request.getXmlRpcValue = function (value, type) {
   var new_value;
-  if (arguments.length < 2) var type = XML_RPC_Request.getType(value);
+  if (arguments.length < 2) {
+    var type = XML_RPC_Request.getType(value);
+  }
 
   switch (type) {
     case 'string':
@@ -441,9 +444,13 @@ XML_RPC_Request.getType = function (value) {
       return 'double';
     // both array and objects are 'object'
     case 'object':
-      if (value instanceof Array) return 'array';
+      if (value instanceof Array) {
+        return 'array';
+      }
 
-      if (value instanceof Date) return 'date';
+      if (value instanceof Date) {
+        return 'date';
+      }
 
       return 'struct';
     default:
@@ -693,7 +700,9 @@ XML_RPC_Client.prototype.setRequestUri = function (uri) {
     }
   }
 
-  if (XML_RPC_Client.debug) alert('XML_RPC_Client: Request URI:\n' + uri);
+  if (XML_RPC_Client.debug) {
+    alert('XML_RPC_Client: Request URI:\n' + uri);
+  }
 
   this.request_uri = uri;
 };
@@ -718,8 +727,9 @@ XML_RPC_Client.prototype.callProcedure = function (
   // Check if arguments were passed.
   if (arguments.length > 2) {
     // Check if arguments were passed as an array.
-    if (!(procedure_arguments instanceof Array))
+    if (!(procedure_arguments instanceof Array)) {
       procedure_arguments = [procedure_arguments];
+    }
   } else {
     procedure_arguments = [];
   }
@@ -727,8 +737,9 @@ XML_RPC_Client.prototype.callProcedure = function (
   // Check if types were passed.
   if (arguments.length > 3) {
     // Check if types were passed as an array.
-    if (!(procedure_types instanceof Array))
+    if (!(procedure_types instanceof Array)) {
       procedure_types = [procedure_types];
+    }
 
     var xml_rpc_request = new XML_RPC_Request(
       procedure_name,
@@ -744,8 +755,9 @@ XML_RPC_Client.prototype.callProcedure = function (
 
   var post_data = xml_rpc_request.marshall();
 
-  if (XML_RPC_Client.debug)
+  if (XML_RPC_Client.debug) {
     alert('XML_RPC_Client: Sending request:\n' + post_data);
+  }
 
   var request_callback = {
     success: this.handleSuccessfulResponse,
@@ -775,8 +787,9 @@ XML_RPC_Client.prototype.callProcedure = function (
 
 XML_RPC_Client.prototype.handleSuccessfulResponse = function (o) {
   // debug
-  if (XML_RPC_Client.debug)
+  if (XML_RPC_Client.debug) {
     alert('XML_RPC_Client: Request successful:\n' + o.responseText);
+  }
 
   var xml_rpc_response = new XML_RPC_Response(o.responseXML);
 
@@ -789,6 +802,7 @@ XML_RPC_Client.prototype.handleSuccessfulResponse = function (o) {
 
 XML_RPC_Client.prototype.handleFailedResponse = function (o) {
   // debug
-  if (XML_RPC_Client.debug)
+  if (XML_RPC_Client.debug) {
     alert('XML_RPC_Client: Request failed:\n' + o.responseText);
+  }
 };
