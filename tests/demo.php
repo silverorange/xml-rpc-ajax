@@ -1,7 +1,7 @@
 <?php
 
 /**
- * t* @copyright 2005-2016 silverorange
+ * @copyright 2005-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 header('Content-type: text/html; charset=UTF-8');
