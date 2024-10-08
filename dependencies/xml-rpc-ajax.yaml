@@ -22,6 +22,5 @@ XML_RPCAjax:
     - SwatYUI
 
   Provides:
-
     # JavaScript resources
     packages/xml-rpc-ajax/javascript/xml-rpc-ajax.js:

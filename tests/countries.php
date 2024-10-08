@@ -1,12 +1,10 @@
 <?php
 
 /**
- * @package   XML_RPCAjax
  * @copyright 2005-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
-
-$countries = array(
+$countries = [
     'Andorra',
     'United Arab Emirates',
     'Afghanistan',
@@ -237,7 +235,5 @@ $countries = array(
     'Yugoslavia',
     'Mayotte',
     'Zambia',
-    'South Africa'
-);
-
-?>
+    'South Africa',
+];

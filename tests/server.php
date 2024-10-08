@@ -1,7 +1,6 @@
 <?php
 
 /**
- * @package   xml-rpc-ajax
  * @copyright 2005-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
@@ -36,23 +35,22 @@ header('Cache-Control: no-cache, must-revalidate max-age=0');
 header('Pragma: no-cache');
 
 /**
- * A demo XML-RPC server
+ * A demo XML-RPC server.
  *
  * This server serves XML-RPC requests from the xml-rpc-ajax demo.
  *
- * @package   XML_RPCAjax
  * @copyright 2005-2016 silverorange
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  */
 class MyServer
 {
     /**
-     * Multiplies two numbers
+     * Multiplies two numbers.
      *
-     * @param int $x the left side.
-     * @param int $y the right side.
+     * @param int $x the left side
+     * @param int $y the right side
      *
-     * @return string the product.
+     * @return string the product
      */
     public static function multiply($x, $y)
     {
@@ -60,11 +58,11 @@ class MyServer
     }
 
     /**
-     * Searches for a country based on name
+     * Searches for a country based on name.
      *
-     * @param string $keyword the country name to look for.
+     * @param string $keyword the country name to look for
      *
-     * @return array an array of matching country names.
+     * @return array an array of matching country names
      */
     public static function search($keyword)
     {
@@ -72,11 +70,11 @@ class MyServer
 
         include_once __DIR__ . '/countries.php';
 
-        $return_array = array();
+        $return_array = [];
 
         if ($keyword != '') {
             foreach ($countries as $country) {
-                if (strpos(strtolower($country), $keyword) !== false) {
+                if (str_contains(strtolower($country), $keyword)) {
                     $return_array[] = $country;
                 }
             }
@@ -94,5 +92,3 @@ class MyServer
 
 $server = XML_RPC2_Server::create('MyServer');
 $server->handleCall();
-
-?>
